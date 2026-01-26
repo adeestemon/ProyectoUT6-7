@@ -2,7 +2,7 @@
 const servicios = [
     { titulo: "Eliminación de Personas", desc: "Matamos a sus seres queridos.", img: "img/zombie.png" },
     { titulo: "Eliminación de Mascotas", desc: "Peluditos pero peligrosos.", img: "img/aymigatitozombie.png" },
-    { titulo: "Búsqueda de personas", desc: "Buscamos a tu persona querida.", img: "img/azotea.png" }
+    { titulo: "Búsqueda de personas", desc: "Buscamos a tu persona querida.", img: "img/casita.png" }
 ];
 
 // 2. CREACIÓN DINÁMICA DE SERVICIOS (Al cargar la web)
