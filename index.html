@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan De Los Muertos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<header>
+        <div class="logo-container">
+            <a href="#">
+                <img src="img/logo_juandelosmuertos.png" alt="Juan de los Muertos" class="logo-img">
+            </a>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#">Contratanos</a></li>
+                <li><a href="#">Nuestros encargos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+
+
+
+
+    <section class="services-section" id="servicios">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div id="services-container" class="services-grid"></div>
+    </section>
+
+    <section class="contact-section">
+        <h2 class="section-title">Solicitar Servicio</h2>
+        <form id="form-encargo" class="contact-form">
+            <div class="form-group">
+                <label>Nombre y Apellidos</label>
+                <input type="text" id="nombre" required>
+                <input type="text" id="apellidos" required>
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono (9 dígitos)</label>
+                <input type="tel" id="telefono" pattern="[0-9]{9}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de urgencia (Selección única):</label>
+
+                <input type="radio" id="urgencia-baja" name="urgencia" value="baja" checked>
+                <label for="urgencia-baja">Social (Poco riesgo)</label>
+                <br>
+                <input type="radio" id="urgencia-alta" name="urgencia" value="alta"><label for="urgencia-alta">Crítica
+                    (Me están comiendo)</label>
+            </div>
+
+            <div class="form-group">
+                <label>Extras (Selección múltiple):</label>
+                <input type="checkbox" name="extra" value="incineracion"> Incineración
+                <input type="checkbox" name="extra" value="limpieza"> Limpieza de sangre
+                <input type="checkbox" name="extra" value="silencio"> Discreción absoluta
+            </div>
+
+            <div class="form-group">
+                <label>Sube foto del "disidente":</label>
+                <input type="file" id="foto" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label>Descripción de la situación</label>
+                <textarea id="descripcion" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Enviar Encargo</button>
+        </form>
+    </section>
+
+    <section class="orders-section">
+        <h2 class="section-title">Encargos en Curso</h2>
+        <div id="lista-encargos"></div>
+    </section>
+
+
+
+    
+    <section class="video-section">
+        <h2 class="section-title">Protocolo de Seguridad</h2>
+        <div id="video-container" class="custom-player"></div>
+    </section>
+    <script src="js/video.js"></script>
+    <script src="js/form.js"></script>
+
+</body>
+
+</html>
