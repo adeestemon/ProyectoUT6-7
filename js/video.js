@@ -4,7 +4,7 @@ function inicializarReproductor() {
 
     // 1. Crear el elemento Vídeo
     const video = document.createElement('video');
-    video.src = "video/juan_promo.mp4"; // Asegúrate de tener un video en esa ruta o usa una URL de prueba
+    video.src = "video/trailer_juan.mp4";
     video.width = 100; // El CSS se encargará del resto
 
     // 2. Crear Contenedor de Controles

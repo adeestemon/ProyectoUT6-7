@@ -1,6 +1,6 @@
-/* =========================================
-   1. RESET Y ESTILOS GENERALES
-   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/*  RESET Y ESTILOS GENERALES */
 * {
     margin: 0;
     padding: 0;
@@ -8,125 +8,179 @@
 }
 
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden;
-background: linear-gradient(to bottom, rgb(110, 18, 18), #000000);    color: white;
-}
-
-/* =========================================
-   2. HEADER Y NAVEGACIÓN
-   ========================================= */
-header {
-    display: flex;
-    justify-content: space-between; /* Separa logo (izq) y menú (der) */
-    align-items: center;            /* Centra verticalmente */
-    padding: 10px 5%;               /* Un poco de aire a los lados */
-    height: 100px;                  /* Altura fija */
-    background-color: #230b0b;
     color: white;
-    border-bottom: 1px solid #333;
-    position: relative;
-    z-index: 100;
+    background:
+        url('https://www.transparenttextures.com/patterns/asfalt-dark.png'),
+        linear-gradient(to bottom, rgb(106, 32, 32), #000000);
+
+    background-blend-mode: overlay;
+
+    /* Asegura que el fondo cubra toda la pantalla y no se corte */
+    background-attachment: fixed;
+
 }
 
-/* --- LOGO (Izquierda) --- */
-.logo-container {
-    /* Eliminamos la posición absoluta anterior */
+/* --- HEADER --- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Menor que el logo */
+    background-color: rgb(35, 11, 11);
+    height: 100px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 5%;
+}
+
+/* Espacio reservado en el header para cuando el logo llegue */
+#header-logo-target {
+    width: 100px;
+    /* Un ancho aproximado para que el nav no se mueva */
+    height: 1px;
 }
 
 .logo-img {
-    height: 80px;        /* Ajustamos altura para que quepa en el header */
-    width: auto;         /* Mantiene la proporción */
-    object-fit: contain;
+    height: 70px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
     transition: transform 0.3s ease;
 }
 
 .logo-img:hover {
-    transform: scale(1.1) rotate(360deg);
+    transform: scale(1.1) rotate(-5deg);
 }
 
-/* --- NAVEGACIÓN (Derecha) --- */
 nav ul {
     display: flex;
     list-style: none;
-    gap: 30px; /* Espacio entre los botones */
-    margin: 0;
-    padding: 0;
+    gap: 30px;
 }
 
 nav a {
     text-decoration: none;
-    color: #eeeeee;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    transition: color 0.3s ease;
-}
-
-nav a:hover {
     color: #ffffff;
-    text-shadow: 0 0 5px rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
 }
 
-/* Ajuste Responsive para móviles */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        height: auto;
-        padding: 20px;
-        gap: 20px;
-    }
-    
-    nav ul {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-}
-
-/* =========================================
-   3. LOGO CENTRAL (HALF-CUT)
-   ========================================= */
-/* .logo-container {
-    position: absolute;
-    left: 50%;
-    top: 100%;
-    transform: translate(-50%, -50%);
-    z-index: 20;
-}
-
-.center-logo-img {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #615252;
-    padding: 5px;
-    border: 4px solid #151212;
-}
-
-.center-logo-img:hover {
-} */
-
-/* =========================================
-   4. HERO SECTION (PORTADA)
-   ========================================= */
+/* --- HERO (PANTALLA DIVIDIDA 50/50) --- */
 .hero {
-    height: 80vh;
-    background-color: #a9a291;
-    background-size: cover;
-    background-position: center;
+    height: 90vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
-    z-index: 1;
+    overflow: hidden;
 }
 
-.hero h1 {
+.hero-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.hero-content {
+    font-family: 'Bebas Neue', sans-serif;
+    text-align: left;
+    flex: 0 0 50%;
+    padding: 0 8%;
+    z-index: 10;
+}
+
+.hero-content h1 {
+    font-size: 5rem;
+    line-height: 0.9;
+    margin-bottom: 10px;
+    text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.7);
+}
+
+.hero-content h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #ddd;
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+.hero-image-container {
+    flex: 0 0 50%;
+    height: 100%;
+    position: relative;
+    background-color: #000;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(110%) brightness(70%);
+    /* Difuminado para que la foto se funda con el fondo rojo */
+    mask-image: linear-gradient(to right, transparent, black 15%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%);
+}
+
+/* --- BOTÓN --- */
+.btn-urgencia {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: #8B0000;
+    color: white;
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    box-shadow: 5px 5px 0px #4a0000;
+    transition: all 0.2s ease;
+}
+
+.btn-urgencia:hover {
+    background-color: #ac1313;
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px #4a0000;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .hero {
+        height: auto;
+    }
+
+    .hero-container {
+        flex-direction: column;
+    }
+
+    .hero-content {
+        flex: 0 0 100%;
+        padding: 60px 5%;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    .hero-image-container {
+        flex: 0 0 100%;
+        width: 100%;
+        height: 300px;
+    }
+
+    .hero-image {
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+}
+
+
+.h1 {
     color: white;
     font-size: 5rem;
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
@@ -134,18 +188,18 @@ nav a:hover {
     margin-top: 50px;
 }
 
-/* =========================================
-   5. SECCIONES (SERVICIOS Y CONTACTO)
-   ========================================= */
-.services-section, 
+/*  SECCIONES (SERVICIOS Y CONTACTO) */
+.services-section,
 .contact-section,
-.encargos-section { /* Añadido para la lista de encargos */
+.encargos-section {
     padding: 100px 5% 60px;
     color: white;
     text-align: center;
 }
 
 .section-title {
+    font-weight: 300;
+    font-family: 'Bebas Neue', sans-serif;
     font-size: 2.5rem;
     color: #ffffff;
     text-align: center;
@@ -167,20 +221,20 @@ nav a:hover {
     background: #151212;
     padding: 40px 20px;
     border-radius: 10px;
-    border: 1px solid #333;
+    border: 1px solid #151212;
     transition: all 0.4s ease;
     cursor: default;
 }
 
 .service-card:hover {
-    background: #252525;
-    border-color: #ac1313;
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(172, 19, 19, 0.2);
+    background: #151212;
+    border-color: #ffffff;
+    /* Breve animacion de movimiento */
 }
 
 .service-card h3 {
     font-size: 1.4rem;
+    text-transform: uppercase;
     margin-bottom: 15px;
     color: #fff;
 }
@@ -198,9 +252,7 @@ nav a:hover {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   6. FORMULARIO NOIR
-   ========================================= */
+/* FORMULARIO  */
 .contact-form {
     max-width: 700px;
     margin: 0 auto;
@@ -215,13 +267,21 @@ nav a:hover {
 }
 
 .form-group label {
-    display: block;
+    display: inline-block;
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
+    margin-top: 15px;
     margin-bottom: 10px;
     color: #ffffff;
     font-weight: bold;
+
+}
+
+.radio-option label {
+    font-weight: normal;
+    margin-bottom: 0;
+    cursor: pointer;
 }
 
 .form-group input[type="text"],
@@ -231,12 +291,14 @@ nav a:hover {
 .form-group textarea {
     width: 100%;
     padding: 12px;
-    background: #000;
+    background: #ffffff;
     border: 1px solid #444;
-    color: #fff;
-    font-family: inherit;
+    color: #444;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     border-radius: 4px;
 }
+
+
 
 .form-group input:focus,
 .form-group select:focus,
@@ -290,10 +352,13 @@ button[type="submit"]:hover {
 
 /* Diseño de la Tarjeta Oscura */
 .encargo-card {
-    background-color: #2c2c2c; /* Gris Oscuro */
-    color: #ffffff;            /* Texto Blanco */
+    background-color: #2c2c2c;
+    /* Gris Oscuro */
+    color: #ffffff;
+    /* Texto Blanco */
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra más fuerte */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    /* Sombra más fuerte */
     border: 1px solid #444;
     overflow: hidden;
     transition: transform 0.2s ease;
@@ -307,7 +372,8 @@ button[type="submit"]:hover {
 
 /* Cabecera Tarjeta */
 .card-header {
-    background-color: #222; /* Encabezado más oscuro */
+    background-color: #222;
+    /* Encabezado más oscuro */
     padding: 15px 20px;
     border-bottom: 1px solid #444;
 }
@@ -328,7 +394,8 @@ button[type="submit"]:hover {
 
 .phone-number {
     font-size: 0.9rem;
-    color: #aaa; /* Gris claro */
+    color: #aaa;
+    /* Gris claro */
     font-weight: 500;
 }
 
@@ -341,9 +408,21 @@ button[type="submit"]:hover {
     text-transform: uppercase;
     color: #fff;
 }
-.badge-alta { background-color: #d32f2f; border: 1px solid #b71c1c; }
-.badge-media { background-color: #f57c00; border: 1px solid #e65100; }
-.badge-baja { background-color: #388e3c; border: 1px solid #1b5e20; }
+
+.badge-alta {
+    background-color: #d32f2f;
+    border: 1px solid #b71c1c;
+}
+
+.badge-media {
+    background-color: #f57c00;
+    border: 1px solid #e65100;
+}
+
+.badge-baja {
+    background-color: #388e3c;
+    border: 1px solid #1b5e20;
+}
 
 /* Cuerpo Tarjeta */
 .card-body {
@@ -351,7 +430,8 @@ button[type="submit"]:hover {
 }
 
 .desc-box {
-    background-color: #383838; /* Gris intermedio */
+    background-color: #383838;
+    /* Gris intermedio */
     border-left: 3px solid #777;
     padding: 10px 15px;
     margin-bottom: 15px;
@@ -370,7 +450,8 @@ button[type="submit"]:hover {
 
 .estado-texto {
     font-weight: bold;
-    color: #ff6b6b; /* Rojo claro para resaltar sobre negro */
+    color: #ff6b6b;
+    /* Rojo claro para resaltar sobre negro */
 }
 
 /* Footer y Botones */
@@ -394,20 +475,193 @@ button[type="submit"]:hover {
     transition: opacity 0.2s;
 }
 
-.btn:hover { opacity: 0.9; }
+.btn:hover {
+    opacity: 0.9;
+}
 
-.btn-complete { background-color: #28a745; }
-.btn-clone { background-color: #6c757d; }
-.btn-delete { background-color: #dc3545; }
+.btn-complete {
+    background-color: #28a745;
+}
+
+.btn-clone {
+    background-color: #6c757d;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
 
 /* =========================================
    8. MEDIA QUERIES (MÓVIL)
    ========================================= */
 @media (max-width: 768px) {
-    .hero h1 { font-size: 3rem; }
-    .section-title { font-size: 2rem; }
-    .services-section { padding-top: 150px; }
-    header { flex-direction: column; height: auto; padding: 20px; gap: 20px; }
-    nav ul { gap: 15px; font-size: 0.8rem; }
-    .logo-container { top: 180px; } /* Ajuste de logo en móvil */
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .services-section {
+        padding-top: 150px;
+    }
+
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    nav ul {
+        gap: 15px;
+        font-size: 0.8rem;
+    }
+
+    .logo-container {
+        top: 180px;
+    }
+}
+
+
+/* Estilo inicial del logo en el HERO */
+.logo-movil {
+    height: 180px;
+    width: auto;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Efecto elástico */
+    margin-bottom: 20px;
+    display: inline-block;
+    position: relative;
+    z-index: 5;
+}
+
+/* --- LOGO EN EL HEADER (Oculto por defecto) --- */
+.logo-header {
+    height: 70px;
+    width: auto;
+    opacity: 0;
+    /* Invisible al principio */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(-20px);
+    /* Viene desde arriba */
+}
+
+/* Clase que activaremos con JS para mostrar el logo del header */
+.logo-header-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- LOGO EN EL HERO --- */
+.logo-hero {
+    height: 180px;
+    width: auto;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease;
+}
+
+.logo-hero-hidden {
+    opacity: 0;
+}
+
+header {
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    background-color: rgb(35, 11, 11);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    height: 100px;
+}
+
+header {
+    transition: background 0.3s ease;
+}
+
+.header-active {
+    background-color: rgba(35, 11, 11, 1) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+#hero-logo-container {
+    z-index: 9999;
+    min-height: 160px;
+    /* Evita saltos de layout cuando el logo se va */
+}
+
+/* --- EL LOGO QUE VUELA --- */
+.logo-animado {
+    position: fixed;
+    top: 25%;
+    left: 8%;
+    height: 180px;
+    width: auto;
+    z-index: 9999;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
+    pointer-events: none;
+    /* Para que no moleste al hacer click en botones */
+}
+
+/* Estado cuando bajamos el scroll */
+.logo-animado.en-header {
+    top: 15px;
+    /* Alineado con el header */
+    left: 5%;
+    /* Esquina superior izquierda */
+    height: 70px;
+    /* Tamaño pequeño */
+}
+
+/* --- ESPACIOS DE APOYO --- */
+.logo-placeholder {
+    width: 80px;
+    /* Espacio que ocupará el logo en el header */
+}
+
+.logo-gap {
+    height: 200px;
+    /* Espacio que ocuparía el logo en el hero */
+}
+
+#video-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #000;
+    border: 2px solid #8B0000;
+    /* Estilo temático Juan de los Muertos */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+video {
+    width: 100%;
+    height: auto;
+}
+
+.video-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #1a1a1a;
+}
+
+/* Estilo para los botones del reproductor */
+.video-controls button {
+    font-family: 'Bebas Neue', sans-serif;
+    background: #8B0000;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+progress {
+    flex-grow: 1;
+    accent-color: #8B0000;
 }

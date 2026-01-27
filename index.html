@@ -8,26 +8,32 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
+<body><img src="img/logo_juandelosmuertos.png" alt="Logo" id="main-logo" class="logo-animado">
 
-<header>
-        <div class="logo-container">
-            <a href="#">
-                <img src="img/logo_juandelosmuertos.png" alt="Juan de los Muertos" class="logo-img">
-            </a>
-        </div>
-
+    <header id="main-header">
+        <div class="logo-placeholder"></div>
         <nav>
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#">Contratanos</a></li>
-                <li><a href="#">Nuestros encargos</a></li>
+                <li><a href="#solicitar-servicio">Contratanos</a></li>
             </ul>
         </nav>
     </header>
 
-
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="logo-gap"></div>
+                <h1>JUAN DE LOS MUERTOS</h1>
+                <h2>Matamos a sus seres queridos</h2>
+                <a href="#solicitar-servicio" class="btn-urgencia">Solicitar servicio</a>
+            </div>
+            <div class="hero-image-container">
+                <img src="img/juan_portada.jpg" alt="Juan de los Muertos" class="hero-image">
+            </div>
+        </div>
+    </section>
 
 
 
@@ -38,34 +44,42 @@
     </section>
 
     <section class="contact-section">
-        <h2 class="section-title">Solicitar Servicio</h2>
+        <h2 class="section-title" id="solicitar-servicio">Solicitar Servicio</h2>
         <form id="form-encargo" class="contact-form">
             <div class="form-group">
-                <label>Nombre y Apellidos</label>
-                <input type="text" id="nombre" required>
-                <input type="text" id="apellidos" required>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Ej; Pepe">
+                <label for="apellidos">Apellidos</label>
+                <input type="text" id="apellidos" placeholder="Ej; Garcia" required>
             </div>
 
             <div class="form-group">
                 <label>Teléfono (9 dígitos)</label>
-                <input type="tel" id="telefono" pattern="[0-9]{9}" required>
+                <input type="tel" id="telefono" maxlength="9" pattern="[0-9]{9}" required>
             </div>
 
             <div class="form-group">
-                <label>Tipo de urgencia (Selección única):</label>
+                <label>TIPO DE URGENCIA (SELECCIÓN ÚNICA):</label>
 
-                <input type="radio" id="urgencia-baja" name="urgencia" value="baja" checked>
-                <label for="urgencia-baja">Social (Poco riesgo)</label>
-                <br>
-                <input type="radio" id="urgencia-alta" name="urgencia" value="alta"><label for="urgencia-alta">Crítica
-                    (Me están comiendo)</label>
+                <div class="radio-option">
+                    <input type="radio" id="urgencia-baja" name="urgencia" value="baja" checked>
+                    <label for="urgencia-baja">SOCIAL (POCO RIESGO)</label>
+                </div>
+
+                <div class="radio-option">
+                    <input type="radio" id="urgencia-alta" name="urgencia" value="alta">
+                    <label for="urgencia-alta">CRÍTICA (ME ESTÁN COMIENDO)</label>
+                </div>
             </div>
 
             <div class="form-group">
-                <label>Extras (Selección múltiple):</label>
-                <input type="checkbox" name="extra" value="incineracion"> Incineración
-                <input type="checkbox" name="extra" value="limpieza"> Limpieza de sangre
-                <input type="checkbox" name="extra" value="silencio"> Discreción absoluta
+                <label>Extras:</label><br>
+                <input type="checkbox" id="extra-incineracion" name="extra" value="incineracion">
+                <label for="extra-incineracion">Incineración</label><br>
+                <input type="checkbox" id="extra-limpieza" name="extra" value="limpieza">
+                <label for="extra-limpieza">Limpieza de sangre</label><br>
+                <input type="checkbox" id="extra-silencio" name="extra" value="silencio">
+                <label for="extra-silencio">Discreción absoluta</label>
             </div>
 
             <div class="form-group">
@@ -89,11 +103,12 @@
 
 
 
-    
+
     <section class="video-section">
         <h2 class="section-title">Protocolo de Seguridad</h2>
         <div id="video-container" class="custom-player"></div>
     </section>
+    <script src="js/animacion.js"></script>
     <script src="js/video.js"></script>
     <script src="js/form.js"></script>
 

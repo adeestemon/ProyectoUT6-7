@@ -2,7 +2,7 @@
 const servicios = [
     { titulo: "Eliminación de Personas", desc: "Matamos a sus seres queridos.", img: "img/zombie.png" },
     { titulo: "Eliminación de Mascotas", desc: "Peluditos pero peligrosos.", img: "img/aymigatitozombie.png" },
-    { titulo: "Búsqueda de personas", desc: "Buscamos a tu persona querida.", img: "img/casita.png" }
+    { titulo: "Refuerzo de vivienda", desc: "Asegura tu refugio contra cualquier amenaza.", img: "img/casa-reforzada.png" },
 ];
 
 // 2. CREACIÓN DINÁMICA DE SERVICIOS (Al cargar la web)
@@ -44,21 +44,29 @@ document.getElementById('form-encargo').addEventListener('submit', function (e) 
     const urgencia = document.querySelector('input[name="urgencia"]:checked').value;
     const descripcion = document.getElementById('descripcion').value;
 
-    if (nombre.length < 3) {
-        alert("El nombre es demasiado corto para los registros de Juan.");
-        return;
+    const fileInput = document.getElementById('foto');
+    const archivo = fileInput.files[0];
+
+    if (archivo) {
+        const lector = new FileReader();
+
+        lector.onload = function (evento) {
+            // evento.target.result contiene la imagen en Base64
+            crearTarjetaEncargo(nombre, apellidos, tel, urgencia, descripcion, evento.target.result);
+        };
+        lector.readAsDataURL(archivo);
+    } else {
+        // Imagen por defecto si el usuario no sube nada
+        crearTarjetaEncargo(nombre, apellidos, tel, urgencia, descripcion, 'img/zombie.png');
     }
-
-    crearTarjetaEncargo(nombre, apellidos, tel, urgencia, descripcion);
-
-    alert("✅ Encargo registrado. No abra la puerta a nadie que no sea Juan.");
+    alert("Encargo registrado. No abra la puerta a nadie que no sea Juan.");
     this.reset();
 });
 
 /**
  * Función principal para crear la tarjeta de encargo y gestionar sus acciones
  */
-function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc) {
+function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
     const listaPendientes = document.getElementById('lista-encargos');
     const nuevoEncargo = document.createElement('div');
     nuevoEncargo.className = 'service-card encargo-item';
@@ -74,33 +82,35 @@ function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc) {
 
     // Contenido de la tarjeta
     nuevoEncargo.innerHTML = `
-<div class="encargo-card">
-    <div class="card-header">
-        <div class="header-top">
-            <h3>${nombre.toUpperCase()} ${apellidos.toUpperCase()}</h3>
-            <span class="badge badge-${urgencia.toLowerCase()}">${urgencia.toUpperCase()}</span>
+    <div class="encargo-card">
+        <div class="card-header">
+            <div class="header-top">
+                <h3>${nombre.toUpperCase()} ${apellidos.toUpperCase()}</h3>
+                <span class="badge badge-${urgencia.toLowerCase()}">${urgencia.toUpperCase()}</span>
+            </div>
+            <div class="header-sub">
+                <span class="phone-number">📞 ${tel}</span>
+            </div>
         </div>
-        <div class="header-sub">
-            <span class="phone-number">📞 ${tel}</span>
-        </div>
-    </div>
 
-    <div class="card-body">
-        <div class="desc-box">
-            <p>"${desc || 'Sin descripción'}"</p>
+        <div class="card-body">
+            <img src="${fotoUrl}" alt="Disidente" class="service-icon" style="width:100%; height:150px; object-fit:cover; border-radius:4px; margin-bottom:10px;">
+            
+            <div class="desc-box">
+                <p>"${desc || 'Sin descripción'}"</p>
+            </div>
+            <div class="status-row">
+                <span>Estado:</span>
+                <span class="estado-texto pending">PENDIENTE</span>
+            </div>
         </div>
-        <div class="status-row">
-            <span>Estado:</span>
-            <span class="status-badge pending">PENDIENTE</span>
-        </div>
-    </div>
 
-    <div class="card-footer">
-        <button class="btn btn-complete">Finalizar</button>
-        <button class="btn btn-clone">Duplicar</button>
-        <button class="btn btn-delete">Eliminar</button>
+        <div class="card-footer">
+            <button class="btn btn-complete">Finalizar</button>
+            <button class="btn btn-clone">Duplicar</button>
+            <button class="btn btn-delete">Eliminar</button>
+        </div>
     </div>
-</div>
     `;
 
     // 2. ELIMINAR (Desde el padre)
@@ -160,6 +170,7 @@ function rebindEventos(elemento) {
     btnComp.onclick = () => {
         elemento.style.opacity = "0.5";
         btnComp.disabled = true;
+        // Dentro de crearTarjetaEncargo y rebindEventos usa siempre:
         elemento.querySelector('.estado-texto').textContent = "COMPLETADO";
     };
 }
