@@ -1,49 +1,35 @@
-// 1. DATOS DE SERVICIOS
+// Datos de los servicios ofrecidos
 const servicios = [
     { titulo: "Eliminación de Personas", desc: "Matamos a sus seres queridos.", img: "img/zombie.png" },
     { titulo: "Eliminación de Mascotas", desc: "Peluditos pero peligrosos.", img: "img/aymigatitozombie.png" },
     { titulo: "Refuerzo de vivienda", desc: "Asegura tu refugio contra cualquier amenaza.", img: "img/casa-reforzada.png" },
 ];
 
-// 2. CREACIÓN DINÁMICA DE SERVICIOS (Al cargar la web)
+// Creación dinámica de servicios
 const container = document.getElementById('services-container');
-
+// Servicios dinámicos
 servicios.forEach(s => {
-    // Crear el elemento tarjeta
     const card = document.createElement('div');
     card.className = 'service-card';
-
-    // Crear la imagen
-    const imagen = document.createElement('img');
-    imagen.src = s.img;
-    imagen.className = 'service-img';
-
-    // Crear el título
-    const h3 = document.createElement('h3');
-    h3.textContent = s.titulo;
-
-    // Crear la descripción
-    const p = document.createElement('p');
-    p.textContent = s.desc;
-
-    // AppendChild: meter todo dentro de la tarjeta
-    card.appendChild(imagen);
-    card.appendChild(h3);
-    card.appendChild(p);
-
-    // Meter la tarjeta en el grid
+    card.innerHTML = `<img src="${s.img}" class="service-img"><h3>${s.titulo}</h3><p>${s.desc}</p>`;
     container.appendChild(card);
 });
 
+// Manejo del formulario de encargos
 document.getElementById('form-encargo').addEventListener('submit', function (e) {
     e.preventDefault();
-
+    // Obtener datos del formulario
     const nombre = document.getElementById('nombre').value;
     const apellidos = document.getElementById('apellidos').value;
     const tel = document.getElementById('telefono').value;
     const urgencia = document.querySelector('input[name="urgencia"]:checked').value;
     const descripcion = document.getElementById('descripcion').value;
 
+    if (urgencia === "alta") {
+        alert("AVISO: La urgencia CRÍTICA conlleva un recargo del 50% por peligrosidad biológica.");
+    }
+
+    // Manejo de la imagen subida
     const fileInput = document.getElementById('foto');
     const archivo = fileInput.files[0];
 
@@ -52,6 +38,7 @@ document.getElementById('form-encargo').addEventListener('submit', function (e) 
 
         lector.onload = function (evento) {
             // evento.target.result contiene la imagen en Base64
+            // Crear la tarjeta de encargo con la imagen subida
             crearTarjetaEncargo(nombre, apellidos, tel, urgencia, descripcion, evento.target.result);
         };
         lector.readAsDataURL(archivo);
@@ -63,15 +50,12 @@ document.getElementById('form-encargo').addEventListener('submit', function (e) 
     this.reset();
 });
 
-/**
- * Función principal para crear la tarjeta de encargo y gestionar sus acciones
- */
+// Función principal para crear la tarjeta de encargo y gestionar sus acciones
 function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
     const listaPendientes = document.getElementById('lista-encargos');
     const nuevoEncargo = document.createElement('div');
     nuevoEncargo.className = 'service-card encargo-item';
 
-    // 1. CAMBIAR ATRIBUTOS/ESTILOS DINÁMICAMENTE
     // Si es urgente, resaltamos la tarjeta con CSS directo
     if (urgencia === "alta") {
         nuevoEncargo.style.border = "2px solid #ff0000";
@@ -113,7 +97,7 @@ function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
     </div>
     `;
 
-    // 2. ELIMINAR (Desde el padre)
+    // ELIMINAR (Desde el padre)
     nuevoEncargo.querySelector('.btn-delete').onclick = function () {
         if (confirm("¿Seguro que quieres cancelar? Juan no devuelve el depósito.")) {
             // Accedemos al padre (lista-encargos) para remover al hijo
@@ -121,7 +105,7 @@ function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
         }
     };
 
-    // 3. CLONAR ENCARGO
+    // CLONAR
     nuevoEncargo.querySelector('.btn-clone').onclick = function () {
         // Clonamos el nodo (true para clonar también hijos y eventos no inline)
         const clon = nuevoEncargo.cloneNode(true);
@@ -134,7 +118,7 @@ function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
         alert("Encargo duplicado. Doble trabajo, doble paga.");
     };
 
-    // 4. MOVER / COMPLETAR
+    // MOVER / COMPLETAR
     nuevoEncargo.querySelector('.btn-complete').onclick = function () {
         // Cambiamos estilos para reflejar que está terminado
         nuevoEncargo.style.opacity = "0.6";
@@ -153,9 +137,7 @@ function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
     listaPendientes.appendChild(nuevoEncargo);
 }
 
-/**
- * Función auxiliar para que los clones también tengan botones funcionales
- */
+// Función auxiliar para que los clones también tengan botones funcionales
 function rebindEventos(elemento) {
     const btnDel = elemento.querySelector('.btn-delete');
     const btnClone = elemento.querySelector('.btn-clone');
@@ -170,7 +152,6 @@ function rebindEventos(elemento) {
     btnComp.onclick = () => {
         elemento.style.opacity = "0.5";
         btnComp.disabled = true;
-        // Dentro de crearTarjetaEncargo y rebindEventos usa siempre:
         elemento.querySelector('.estado-texto').textContent = "COMPLETADO";
     };
 }

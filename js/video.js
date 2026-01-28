@@ -1,20 +1,19 @@
-// --- LÓGICA DEL REPRODUCTOR DE VÍDEO (UT6 + UT7) ---
 function inicializarReproductor() {
     const vContainer = document.getElementById('video-container');
 
-    // 1. Crear el elemento Vídeo
+    // Crear el elemento Vídeo
     const video = document.createElement('video');
     video.src = "video/trailer_juan.mp4";
     video.width = 100; // El CSS se encargará del resto
 
-    // 2. Crear Contenedor de Controles
+    // Crear Contenedor de Controles
     const controls = document.createElement('div');
     controls.className = "video-controls";
 
-    // 3. Crear Botones y Slider
+    // Crear Botones y Slider
     const btnPlay = document.createElement('button');
     btnPlay.textContent = "PLAY";
-    btnPlay.disabled = true; // Deshabilitado hasta que canplay (UT6)
+    btnPlay.disabled = true; // Deshabilitado hasta que canplay
 
     const btnReset = document.createElement('button');
     btnReset.textContent = "REINICIAR";
@@ -23,14 +22,14 @@ function inicializarReproductor() {
     volSlider.type = "range";
     volSlider.min = 0; volSlider.max = 1; volSlider.step = 0.1; volSlider.value = 0.5;
 
-    const barraProgreso = document.createElement('progress');
-    barraProgreso.value = 0; barraProgreso.max = 100;
+    const barraProgreso = document.createElement('input');
+    barraProgreso.type = "range"; barraProgreso.value = 0;
 
     const infoEstado = document.createElement('span');
     infoEstado.id = "video-status";
     infoEstado.textContent = "CARGANDO...";
 
-    // 4. AppendChild (UT6)
+    // Añadir controles al contenedor
     controls.appendChild(btnPlay);
     controls.appendChild(btnReset);
     controls.appendChild(volSlider);
@@ -39,15 +38,16 @@ function inicializarReproductor() {
     vContainer.appendChild(video);
     vContainer.appendChild(controls);
 
-    // --- EVENTOS DEL VÍDEO (UT7) ---
-
+    /* Eventos del reproductor*/
     // loadedmetadata: Inicializa duración
-    video.onloadedmetadata = () => console.log("Video listo: " + video.duration + "s");
+    video.onloadedmetadata = () => barraProgreso.max = Math.floor(video.duration);
 
     // canplay: Habilita botones cuando está listo
-    video.oncanplay = () => {
-        btnPlay.disabled = false;
-        infoEstado.textContent = "LISTO";
+    video.oncanplay = () => { btnPlay.disabled = false; infoEstado.textContent = "LISTO"; };
+
+    // timeupdate: Actualiza barra en tiempo real
+    video.ontimeupdate = () => {
+        barraProgreso.value = Math.floor(video.currentTime);
     };
 
     // play / pause: Cambiar estado visual
@@ -74,13 +74,10 @@ function inicializarReproductor() {
     // Volumen
     volSlider.oninput = () => video.volume = volSlider.value;
 
-    // timeupdate: Actualiza barra en tiempo real
-    video.ontimeupdate = () => {
-        const porcentaje = (video.currentTime / video.duration) * 100;
-        barraProgreso.value = porcentaje;
-    };
+    // Barra de progreso
+    barraProgreso.oninput = () => video.currentTime = barraProgreso.value;
 
-    // ended: Al finalizar
+    // Finalizado
     video.onended = () => {
         infoEstado.textContent = "FINALIZADO";
         btnPlay.textContent = "REPLAY";
@@ -88,5 +85,4 @@ function inicializarReproductor() {
     };
 }
 
-// Llamamos a la función al cargar la página
 inicializarReproductor();
