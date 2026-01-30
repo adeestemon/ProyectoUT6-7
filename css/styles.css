@@ -33,6 +33,75 @@ header {
     transition: background 0.3s ease;
 }
 
+/* --- ESTILO MEJORADO PARA EL MENÚ (ESTÉTICA SUPERVIVENCIA) --- */
+.menu-principal a {
+    text-decoration: none;
+    color: #ffffff;
+    /* Blanco puro para que destaque sobre el fondo oscuro */
+    font-family: 'Bebas Neue', sans-serif;
+    /* Usamos tu fuente principal */
+    font-size: 1.4rem;
+    /* Un poco más grande para legibilidad */
+    letter-spacing: 2px;
+    position: relative;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+}
+
+/* El efecto de fondo/borde estilo "target" */
+.menu-principal a::before {
+    content: '[';
+    position: absolute;
+    left: -10px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform: translateX(10px);
+}
+
+.menu-principal a::after {
+    content: ']';
+    position: absolute;
+    right: -10px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform: translateX(-10px);
+}
+
+/* Efecto al pasar el ratón */
+.menu-principal a:hover {
+    text-shadow: 0 0 8px rgba(172, 19, 19, 0.6);
+}
+
+.menu-principal a:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.menu-principal a:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.menu-principal li:last-child a {
+    background-color: #8B0000;
+    padding: 8px 20px;
+    box-shadow: 3px 3px 0px #4a0000;
+    margin-left: 15px;
+}
+
+.menu-principal li:last-child a::before,
+.menu-principal li:last-child a::after {
+    display: none;
+}
+
+.menu-principal li:last-child a:hover {
+    background-color: #ac1313;
+    color: white;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px #4a0000;
+}
+
+
 /* Clase que se activa con scroll vía JS */
 .header-active {
     background-color: rgba(35, 11, 11, 1) !important;
@@ -41,7 +110,6 @@ header {
 
 .logo-placeholder {
     width: 80px;
-    /* Reserva el espacio para el logo animado */
 }
 
 nav ul {
@@ -428,6 +496,69 @@ video {
     border: none;
     padding: 5px 15px;
     cursor: pointer;
+}
+
+
+/*FOOTER */
+#main-footer {
+    background-color: #080808;
+    border-top: 2px solid #1a1a1a;
+    margin-top: 60px;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+.footer-grid {
+    display: flex;
+    height: 400px;
+    /* Altura obligatoria para que el iframe se vea */
+    width: 100%;
+}
+
+.footer-map-container {
+    flex: 0 0 50%;
+    /* Filtro B&N para el mapa */
+    filter: grayscale(100%) brightness(0.6) contrast(1.2) invert(90%);
+    /* El invert(90%) ayuda a que el mapa de Google parezca un "modo oscuro" */
+}
+
+.footer-map-container iframe {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+}
+
+.footer-info-container {
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #050505;
+    padding: 20px;
+}
+
+.footer-logo-bn {
+    width: 200px;
+    border-radius: 50%;
+    filter: grayscale(100%);
+    margin-bottom: 15px;
+}
+
+.location {
+    color: #ffffff;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.copyright {
+    color: #444;
+    font-size: 0.8rem;
 }
 
 /* --- MEDIA QUERIES (MÓVIL) --- */
