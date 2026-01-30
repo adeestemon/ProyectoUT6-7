@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juan De Los Muertos</title>
     <link rel="stylesheet" href="css/styles.css">
-
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="icon" type="image/png" href="img/logo_juandelosmuertos.png">
 </head>
 
@@ -55,26 +56,27 @@
             </div>
 
             <div class="form-group">
-                <label>Teléfono (9 dígitos)</label>
+                <label for="telefono">Teléfono (9 dígitos)</label>
                 <input type="tel" id="telefono" maxlength="9" pattern="[0-9]{9}" required>
             </div>
 
             <div class="form-group">
-                <label>TIPO DE URGENCIA (SELECCIÓN ÚNICA):</label>
+                <span class="label-style">TIPO DE URGENCIA (SELECCIÓN ÚNICA):</span>
+                <div class="options-wrapper">
+                    <div class="radio-option">
+                        <input type="radio" id="urgencia-baja" name="urgencia" value="baja" checked>
+                        <label for="urgencia-baja">BAJA</label>
+                    </div>
 
-                <div class="radio-option">
-                    <input type="radio" id="urgencia-baja" name="urgencia" value="baja" checked>
-                    <label for="urgencia-baja">SOCIAL (POCO RIESGO)</label>
-                </div>
-
-                <div class="radio-option">
-                    <input type="radio" id="urgencia-alta" name="urgencia" value="alta">
-                    <label for="urgencia-alta">CRÍTICA (ME ESTÁN COMIENDO)</label>
+                    <div class="radio-option">
+                        <input type="radio" id="urgencia-alta" name="urgencia" value="alta">
+                        <label for="urgencia-alta">ALTA</label>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Extras:</label><br>
+                <span class="label-style">Extras:</span><br>
                 <input type="checkbox" id="extra-incineracion" name="extra" value="incineracion">
                 <label for="extra-incineracion">Incineración</label><br>
                 <input type="checkbox" id="extra-limpieza" name="extra" value="limpieza">
@@ -83,9 +85,10 @@
                 <label for="extra-silencio">Discreción absoluta</label>
             </div>
 
+
             <div class="form-group">
-                <label>Sube foto del "disidente":</label>
-                <input type="file" id="foto" accept="image/*">
+                <span class="label-style">Sube foto del "disidente":</span>
+                <input type="file" id="foto" accept="image/*" class="input-archivo-custom">
             </div>
 
             <div class="form-group">
