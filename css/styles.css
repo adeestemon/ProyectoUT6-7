@@ -662,4 +662,20 @@ video {
         mask-image: none;
         -webkit-mask-image: none;
     }
+
+    .logo-animado {
+        position: relative; 
+        left: 0 !important;
+        margin: 20px auto;
+        display: block;
+        height: 120px;
+        width: auto;
+    }
+
+    .logo-animado.en-header {
+        position: fixed;
+        top: 10px !important;
+        left: 5% !important;
+        height: 50px;
+    }
 }
