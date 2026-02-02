@@ -527,38 +527,61 @@ nav a {
 }
 
 /* --- REPRODUCTOR DE VÍDEO --- */
-#video-container {
-    max-width: 800px;
-    margin: 20px auto;
+
+.custom-player {
+    position: relative;
     background: #000;
-    border: 2px solid #8B0000;
     padding: 10px;
-    display: flex;
-    flex-direction: column;
+    border-radius: 8px;
 }
 
-video {
-    width: 100%;
-    height: auto;
-}
-
-.video-controls {
+.controls {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.7);
     padding: 10px;
-    background: #1a1a1a;
-}
-
-.video-controls button {
-    font-family: 'Bebas Neue', sans-serif;
-    background: #8B0000;
     color: white;
-    border: none;
-    padding: 5px 15px;
-    cursor: pointer;
 }
 
+#progress-bar {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    /* El degradado hará el efecto de "relleno" */
+    background: linear-gradient(to right, #8b0000 0%, #8b0000 0%, #444 0%, #444 100%);
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.1s ease;
+}
+
+#progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px; /* Un poco más grande para el zombie */
+    height: 30px;
+    background-image: url('/img/zombie.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    /* Ajuste para centrar el icono verticalmente si es necesario */
+    margin-top: -10px; 
+}
+
+#time-display {
+    white-space: nowrap; /* Evita que se separe en dos filas */
+    font-family: monospace; /* Opcional: mantiene los números alineados */
+    min-width: 100px; /* Opcional: evita que la barra de progreso salte al cambiar el tiempo */
+    display: inline-block;
+}
+.volume-container {
+    display: flex;
+    
+    align-items: center;
+    gap: 5px;
+}
 
 /*FOOTER */
 #main-footer {
@@ -618,7 +641,7 @@ video {
 }
 
 .copyright {
-    color: #444;
+    color: #dbdbdb;
     font-size: 0.8rem;
 }
 

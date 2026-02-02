@@ -1,88 +1,74 @@
-function inicializarReproductor() {
-    const vContainer = document.getElementById('video-container');
+const video = document.getElementById('main-video');
+const playBtn = document.getElementById('play-pause');
+const resetBtn = document.getElementById('reset');
+const progressBar = document.getElementById('progress-bar');
+const timeDisplay = document.getElementById('time-display');
+const volumeSlider = document.getElementById('volume-slider');
+const statusMsg = document.getElementById('status-message');
 
-    // Crear el elemento Vídeo
-    const video = document.createElement('video');
-    video.src = "video/trailer_juan.mp4";
-    video.width = 100; // El CSS se encargará del resto
+// Formatear segundos a 00:00
+const formatTime = (time) => {
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
 
-    // Crear Contenedor de Controles
-    const controls = document.createElement('div');
-    controls.className = "video-controls";
+// 1. loadedmetadata: Inicializa barra y duración
+video.addEventListener('loadedmetadata', () => {
+    progressBar.max = video.duration;
+    timeDisplay.innerText = `00:00 / ${formatTime(video.duration)}`;
+});
 
-    // Crear Botones y Slider
-    const btnPlay = document.createElement('button');
-    btnPlay.textContent = "PLAY";
-    btnPlay.disabled = true; // Deshabilitado hasta que canplay
+// 2. canplay: Habilita controles
+video.addEventListener('canplay', () => {
+    console.log("Video listo para reproducir");
+    playBtn.disabled = false;
+});
 
-    const btnReset = document.createElement('button');
-    btnReset.textContent = "REINICIAR";
+// 3. Play / Pause
+playBtn.addEventListener('click', () => {
+    if (video.paused) {
+        video.play();
+        playBtn.innerText = 'Pause';
+    } else {
+        video.pause();
+        playBtn.innerText = 'Play';
+    }
+});
 
-    const volSlider = document.createElement('input');
-    volSlider.type = "range";
-    volSlider.min = 0; volSlider.max = 1; volSlider.step = 0.1; volSlider.value = 0.5;
+// 4. Reiniciar
+resetBtn.addEventListener('click', () => {
+    video.pause();
+    video.currentTime = 0;
+    video.play();
+    statusMsg.innerText = "";
+});
 
-    const barraProgreso = document.createElement('input');
-    barraProgreso.type = "range"; barraProgreso.value = 0;
+// 5. timeupdate: Actualiza barra y tiempo actual
+video.addEventListener('timeupdate', () => {
+    // 1. Actualizar valor y texto (lo que ya tenías)
+    progressBar.value = video.currentTime;
+    timeDisplay.innerText = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
 
-    const infoEstado = document.createElement('span');
-    infoEstado.id = "video-status";
-    infoEstado.textContent = "CARGANDO...";
+    // 2. TRUCO: Calcular el porcentaje y mover el color
+    const percentage = (video.currentTime / video.duration) * 100;
+    
+    // Cambiamos el fondo dinámicamente (Rojo oscuro para la parte recorrida, Gris para la restante)
+    progressBar.style.background = `linear-gradient(to right, #8B0000 ${percentage}%, #111 ${percentage}%)`;
+});
 
-    // Añadir controles al contenedor
-    controls.appendChild(btnPlay);
-    controls.appendChild(btnReset);
-    controls.appendChild(volSlider);
-    controls.appendChild(barraProgreso);
-    controls.appendChild(infoEstado);
-    vContainer.appendChild(video);
-    vContainer.appendChild(controls);
+// 6. Saltar a un punto del video (input en barra)
+progressBar.addEventListener('input', () => {
+    video.currentTime = progressBar.value;
+});
 
-    /* Eventos del reproductor*/
-    // loadedmetadata: Inicializa duración
-    video.onloadedmetadata = () => barraProgreso.max = Math.floor(video.duration);
+// 7. Control de volumen
+volumeSlider.addEventListener('input', () => {
+    video.volume = volumeSlider.value;
+});
 
-    // canplay: Habilita botones cuando está listo
-    video.oncanplay = () => { btnPlay.disabled = false; infoEstado.textContent = "LISTO"; };
-
-    // timeupdate: Actualiza barra en tiempo real
-    video.ontimeupdate = () => {
-        barraProgreso.value = Math.floor(video.currentTime);
-    };
-
-    // play / pause: Cambiar estado visual
-    btnPlay.onclick = () => {
-        if (video.paused) {
-            video.play();
-            btnPlay.textContent = "PAUSE";
-            infoEstado.textContent = "REPRODUCIENDO";
-            infoEstado.style.color = "#00ff00";
-        } else {
-            video.pause();
-            btnPlay.textContent = "PLAY";
-            infoEstado.textContent = "EN PAUSA";
-            infoEstado.style.color = "#ffff00";
-        }
-    };
-
-    // Reiniciar
-    btnReset.onclick = () => {
-        video.load();
-        btnPlay.textContent = "PLAY";
-    };
-
-    // Volumen
-    volSlider.oninput = () => video.volume = volSlider.value;
-
-    // Barra de progreso
-    barraProgreso.oninput = () => video.currentTime = barraProgreso.value;
-
-    // Finalizado
-    video.onended = () => {
-        infoEstado.textContent = "FINALIZADO";
-        btnPlay.textContent = "REPLAY";
-        infoEstado.style.color = "#ac1313";
-    };
-}
-
-inicializarReproductor();
+// 8. ended: Mensaje al finalizar
+video.addEventListener('ended', () => {
+    statusMsg.innerText = "Protocolo finalizado. Puede cerrar la ventana.";
+    playBtn.innerText = 'Play';
+});
