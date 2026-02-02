@@ -19,7 +19,7 @@
         <nav class="menu-principal">
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#servicio">servicio</a></li>
                 <li><a href="#solicitar-servicio">Contrátanos</a></li>
             </ul>
         </nav>
@@ -27,27 +27,27 @@
     </header>
 
     <section class="hero">
-        <div class="hero-container">
+        <div class="hero-contenedor">
             <div class="hero-content">
                 <div class="logo-gap"></div>
                 <h1>JUAN DE LOS MUERTOS</h1>
                 <h2>Matamos a sus seres queridos</h2>
                 <a href="#solicitar-servicio" class="btn-urgencia">Solicitar servicio</a>
             </div>
-            <div class="hero-image-container">
+            <div class="hero-image-contenedor">
                 <img src="img/juan_portada.jpg" alt="Juan de los Muertos" class="hero-image">
             </div>
         </div>
     </section>
 
-    <section class="services-section" id="servicios">
-        <h2 class="section-title">Nuestros Servicios</h2>
-        <div id="services-container" class="services-grid"></div>
+    <section class="servicio-seccion" id="servicio">
+        <h2 class="titulo-seccion">Nuestros servicio</h2>
+        <div id="servicio-contenedor" class="servicio-grid"></div>
     </section>
 
-    <section class="contact-section">
-        <h2 class="section-title" id="solicitar-servicio">Solicitar Servicio</h2>
-        <form id="form-encargo" class="contact-form">
+    <section class="contacto-seccion">
+        <h2 class="titulo-seccion" id="solicitar-servicio">Solicitar Servicio</h2>
+        <form id="form-encargo" class="contacto-form">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" placeholder="Ej; Pepe">
@@ -100,38 +100,54 @@
         </form>
     </section>
 
-    <section class="orders-section">
-        <h2 class="section-title">Encargos en Curso</h2>
+    <section class="ordenes-seccion">
+        <h2 class="titulo-seccion">Encargos en Curso</h2>
         <div id="lista-encargos"></div>
     </section>
 
-    <section class="video-section">
-        <h2 class="section-title">Protocolo de Seguridad</h2>
-        <div id="video-container" class="custom-player">
-            <video id="main-video" width="100%">
+    <section class="video-seccion">
+
+        <h2 class="titulo-seccion">Protocolo de Seguridad</h2>
+        <div id="video-contenedor" class="fondo-video">
+
+            <video poster="img/poster_juan.jpg" id="main-video" width="100%">
                 <source src="video/trailer_juan.mp4" type="video/mp4">
+                <source src="video/traileWEBM.webm" type="video/webm">
+                <track src="video/subtitulos/SubtituloSpanish.vtt" kind="subtitles" srclang="es" label="Español">
+                </track>
+                <track src="video/subtitulos/SubtituloEnglish.vtt" kind="subtitles" srclang="en" label="English">
+                </track>
                 Tu navegador no soporta videos.
             </video>
 
-            <div class="controls">
+            <audio>
+                <source src="video/audioMP3.mp3" type="audio/mp3">
+                <source src="video/audioOGG.ogg" type="audio/ogg">
+            </audio>
+
+            <div class="controles">
                 <button id="play-pause" class="control-btn">
                     <span id="play-icon" class="material-symbols-outlined">play_circle</span>
+                </button>
 
-                    <button id="reset" class="control-btn">
-                        <span class="material-symbols-outlined">replay</span>
-                    </button>
+                <button id="reset" class="control-btn">
+                    <span class="material-symbols-outlined">replay</span>
+                </button>
 
-                    <input type="range" id="progress-bar" value="0" min="0" step="0.1">
-                    <span id="time-display">00:00 / 00:00</span>
-
-                    <div class="volume-container">
-                        <span>Vol:</span>
-                        <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
-                    </div>
+                <input type="range" id="progreso-barra" value="0" min="0" step="0.1">
+                <span id="time-display">00:00 / 00:00</span>
+                <div class="volumen-contenedor">
+                    <span>Vol:</span>
+                    <input type="range" id="volumen-slider" min="0" max="1" step="0.1" value="1">
+                </div>
             </div>
-            <div id="status-message" style="color: rgb(255, 253, 253); font-weight: bold;"></div>
+
+            <div id="mensaje"></div>
+
         </div>
     </section>
+
+
     <div id="alert-system" class="radio-rebelde">
         <div class="radio-header">
             <span class="material-symbols-outlined signal-icon">sensors</span>
@@ -154,7 +170,7 @@
     </div>
     <footer id="main-footer">
         <div class="footer-grid">
-            <div class="footer-map-container">
+            <div class="footer-map-contenedor">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118222.75990236127!2d-82.47959082006386!3d23.084704386828557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88cd7f212284e365%3A0xc348e3599a53ca83!2sLa%20Habana%2C%20Cuba!5e0!3m2!1ses!2ses!4v1706691039801!5m2!1ses!2ses"
                     width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
@@ -162,7 +178,7 @@
                     aria-label="Ubicación de Juan De Los Muertos en La Habana, Cuba">
                 </iframe>
             </div>
-            <div class="footer-info-container">
+            <div class="footer-info-contenedor">
                 <img src="img/logo_juandelosmuertos.png" alt="Logotipo Juan De Los Muertos" class="footer-logo-bn">
                 <p class="location">La Habana, Cuba</p>
                 <p class="copyright">&copy; 2026 Juan De Los Muertos. Todos los derechos reservados.</p>

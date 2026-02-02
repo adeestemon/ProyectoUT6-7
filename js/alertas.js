@@ -9,7 +9,7 @@ function setupAlertasAsincronas() {
     const alertText = document.getElementById('alert-text');
     const btnToggle = document.getElementById('btn-toggle-alerts');
     const btnMinimize = document.getElementById('btn-minimize');
-    const radioContainer = document.getElementById('alert-system');
+    const radiocontenedor = document.getElementById('alert-system');
     const minIcon = document.getElementById('min-icon');
 
     // Definición de la lógica de obtención de datos
@@ -75,8 +75,8 @@ function setupAlertasAsincronas() {
 
     // Minimizar / Maximizar
     btnMinimize.onclick = () => {
-        radioContainer.classList.toggle('minimized');
-        minIcon.innerText = radioContainer.classList.contains('minimized') ? 'add' : 'remove';
+        radiocontenedor.classList.toggle('minimized');
+        minIcon.innerText = radiocontenedor.classList.contains('minimized') ? 'add' : 'remove';
     };
 
     // Lanzar la primera alerta al cargar

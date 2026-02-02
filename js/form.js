@@ -6,13 +6,13 @@ const servicios = [
 ];
 
 // Creación dinámica de servicios
-const container = document.getElementById('services-container');
+const contenedor = document.getElementById('services-contenedor');
 // Servicios dinámicos
 servicios.forEach(s => {
     const card = document.createElement('div');
     card.className = 'service-card';
     card.innerHTML = `<img src="${s.img}" class="service-img"><h3>${s.titulo}</h3><p>${s.desc}</p>`;
-    container.appendChild(card);
+    contenedor.appendChild(card);
 });
 
 // Manejo del formulario de encargos

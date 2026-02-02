@@ -1,91 +1,80 @@
 const video = document.getElementById('main-video');
 const playBtn = document.getElementById('play-pause');
 const resetBtn = document.getElementById('reset');
-const progressBar = document.getElementById('progress-bar');
+const progresoBarra = document.getElementById('progreso-barra');
 const timeDisplay = document.getElementById('time-display');
-const volumeSlider = document.getElementById('volume-slider');
-const statusMsg = document.getElementById('status-message');
+const volumenSlider = document.getElementById('volumen-slider');
+const mensaje = document.getElementById('mensaje');
+const icon = document.getElementById('play-icon');
 
-// Formatear segundos a 00:00
-const formatTime = (time) => {
-    const mins = Math.floor(time / 60);
-    const secs = Math.floor(time % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-};
 
-// 1. loadedmetadata: Inicializa barra y duración
-video.addEventListener('loadedmetadata', () => {
-    progressBar.max = video.duration;
+// Formatear tiempo
+function formatTime(time){
+    const mins = Math.floor(time/60);
+    const secs = Math.floor(time%60);
+    return `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+}
+
+
+// loadedmetadata
+video.addEventListener('loadedmetadata', ()=>{
+    progresoBarra.max = video.duration;
     timeDisplay.innerText = `00:00 / ${formatTime(video.duration)}`;
 });
 
-// 2. canplay: Habilita controles
-video.addEventListener('canplay', () => {
-    console.log("Video listo para reproducir");
-    playBtn.disabled = false;
-});
 
-// 3. Play / Pause
-playBtn.addEventListener('click', () => {
-    const icon = document.getElementById('play-icon');
+// play / pause
+playBtn.addEventListener('click', ()=>{
 
-    if (video.paused) {
+    if(video.paused){
         video.play();
-        icon.innerText = 'pause_circle'; // Cambia a icono de pausa
-    } else {
+        icon.innerText = "pause_circle";
+        mensaje.innerText = "";
+    }else{
         video.pause();
-        icon.innerText = 'play_circle';  // Cambia a icono de play
+        icon.innerText = "play_circle";
     }
+
 });
 
-// IMPORTANTE: También cámbialo en el evento 'ended'
-video.addEventListener('ended', () => {
-    const icon = document.getElementById('play-icon');
-    statusMsg.innerText = "Protocolo finalizado. Puede cerrar la ventana.";
-    icon.innerText = 'play_circle'; // Vuelve a play cuando termina
-});
 
-// 4. Reiniciar
-resetBtn.addEventListener('click', () => {
-    video.pause();
+// reiniciar
+resetBtn.addEventListener('click', ()=>{
     video.currentTime = 0;
     video.play();
-    statusMsg.innerText = "";
+    icon.innerText = "pause_circle";
 });
 
-// 5. timeupdate: Actualiza barra y tiempo actual
-video.addEventListener('timeupdate', () => {
-    progressBar.value = video.currentTime;
-    timeDisplay.innerText = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
 
-    const ratio = video.currentTime / video.duration;
+// actualizar progreso
+video.addEventListener('timeupdate', ()=>{
 
-    // EXPLICACIÓN:
-    // El thumb mide 30px. En el 0%, el centro del zombie está a 15px de la izquierda.
-    // En el 100%, el centro está a 15px de la derecha.
-    // Este cálculo matemático ajusta el gradiente para que SIEMPRE caiga bajo el zombie.
-    const thumbWidth = 30;
-    const progressBarWidth = progressBar.offsetWidth;
-    const centerOffset = (thumbWidth / 2) / progressBarWidth * 100;
+    progresoBarra.value = video.currentTime;
 
-    // Mapeamos el porcentaje para que vaya de (0 + offset) a (100 - offset)
-    const adjustedPercentage = (ratio * (100 - (centerOffset * 2))) + centerOffset;
+    timeDisplay.innerText =
+        `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
 
-    progressBar.style.background = `linear-gradient(to right, #8B0000 ${adjustedPercentage}%, #111 ${adjustedPercentage}%)`;
+    // fondo rojo dinámico bajo el zombie
+    const porcentaje = (video.currentTime / video.duration) * 100;
+    progresoBarra.style.background =
+        `linear-gradient(to right, #8B0000 ${porcentaje}%, #444 ${porcentaje}%)`;
 });
 
-// 6. Saltar a un punto del video (input en barra)
-progressBar.addEventListener('input', () => {
-    video.currentTime = progressBar.value;
+
+// mover barra
+progresoBarra.addEventListener('input', ()=>{
+    video.currentTime = progresoBarra.value;
 });
 
-// 7. Control de volumen
-volumeSlider.addEventListener('input', () => {
-    video.volume = volumeSlider.value;
+
+// volumen
+volumenSlider.addEventListener('input', ()=>{
+    video.volume = volumenSlider.value;
 });
 
-// 8. ended: Mensaje al finalizar
-video.addEventListener('ended', () => {
-    statusMsg.innerText = "El video ha terminao, puede seguir bajando.";
-    playBtn.innerText = 'Play';
+
+// ended
+video.addEventListener('ended', ()=>{
+    icon.innerText = "play_circle";
+    mensaje.innerText = "Video finalizado.";
 });
