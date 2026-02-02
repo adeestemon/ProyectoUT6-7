@@ -1,35 +1,49 @@
+// 1. Definición de variables globales
 let alertsHistory = [];
 let currentAlertIdx = -1;
 let alertTimer = null;
 
+// 2. Función principal
 function setupAlertasAsincronas() {
+    // Referencias al DOM (dentro de la función para asegurar que existen)
     const alertText = document.getElementById('alert-text');
     const btnToggle = document.getElementById('btn-toggle-alerts');
+    const btnMinimize = document.getElementById('btn-minimize');
+    const radioContainer = document.getElementById('alert-system');
+    const minIcon = document.getElementById('min-icon');
 
-    const fetchNuevaAlerta = () => {
-        const posiblesAlertas = [
-            "⚠️ Horda detectada en el Malecón.",
-            "⚠️ Suministros lanzados cerca del Capitolio.",
-            "⚠️ Se busca a Juan por 'exceso de eficiencia'.",
-            "⚠️ Zona Vedado declarada INFECTADA.",
-            "⚠️ Falla eléctrica en Habana Vieja.",
-            "⚠️ Refugio seguro confirmado en El Morro."
-        ];
-        const msg = posiblesAlertas[Math.floor(Math.random() * posiblesAlertas.length)];
-        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Definición de la lógica de obtención de datos
+    const fetchNuevaAlerta = async () => {
+        try {
+            const response = await fetch('php/alertas.php');
+            if (!response.ok) throw new Error('Error en señal');
 
-        const nuevaAlerta = `[${timestamp}] ${msg}`;
-        alertsHistory.push(nuevaAlerta);
-        currentAlertIdx = alertsHistory.length - 1;
-        alertText.textContent = nuevaAlerta;
+            const data = await response.json();
 
-        // Pequeño efecto visual de "nueva señal"
-        alertText.style.color = "#fff";
-        setTimeout(() => alertText.style.color = "#ffffff", 500);
+            if (data.status === "success") {
+                const mensajeServidor = data.alerta;
+
+                // Actualizar historial e índice
+                alertsHistory.push(mensajeServidor);
+                currentAlertIdx = alertsHistory.length - 1;
+
+                // Mostrar en el DOM con estilo terminal
+                alertText.textContent = "> " + mensajeServidor;
+                alertText.style.color = "#ffffff";
+                setTimeout(() => alertText.style.color = "#ffffff", 150);
+            }
+        } catch (error) {
+            console.error("Radio Juan fuera de servicio:", error);
+            alertText.textContent = "> SEÑAL PERDIDA: RECONECTANDO...";
+        }
     };
 
-    alertTimer = setInterval(fetchNuevaAlerta, 8000);
+    // --- EVENTOS DE CONTROL ---
 
+    // Intervalo de la radio
+    alertTimer = setInterval(fetchNuevaAlerta, 4000);
+
+    // Botón Pausar / Reanudar
     btnToggle.onclick = () => {
         if (alertTimer) {
             clearInterval(alertTimer);
@@ -43,39 +57,31 @@ function setupAlertasAsincronas() {
         }
     };
 
+    // Navegación Anterior
     document.getElementById('btn-prev-alert').onclick = () => {
         if (currentAlertIdx > 0) {
             currentAlertIdx--;
-            alertText.textContent = alertsHistory[currentAlertIdx];
+            alertText.textContent = "> " + alertsHistory[currentAlertIdx];
         }
     };
 
+    // Navegación Siguiente
     document.getElementById('btn-next-alert').onclick = () => {
         if (currentAlertIdx < alertsHistory.length - 1) {
             currentAlertIdx++;
-            alertText.textContent = alertsHistory[currentAlertIdx];
+            alertText.textContent = "> " + alertsHistory[currentAlertIdx];
         }
     };
 
-    // Lanzar la primera alerta nada más cargar
-    fetchNuevaAlerta();
-
-    const btnMinimize = document.getElementById('btn-minimize');
-    const radioContainer = document.getElementById('alert-system');
-    const minIcon = document.getElementById('min-icon');
-
+    // Minimizar / Maximizar
     btnMinimize.onclick = () => {
-        // Alterna la clase: si la tiene la quita, si no la tiene la pone
         radioContainer.classList.toggle('minimized');
-
-        // Cambiamos el icono para que el usuario sepa qué va a pasar
-        if (radioContainer.classList.contains('minimized')) {
-            minIcon.innerText = 'add'; // Muestra "+" para maximizar
-        } else {
-            minIcon.innerText = 'remove'; // Muestra "-" para minimizar
-        }
+        minIcon.innerText = radioContainer.classList.contains('minimized') ? 'add' : 'remove';
     };
+
+    // Lanzar la primera alerta al cargar
+    fetchNuevaAlerta();
 }
 
-// Ejecutar
-setupAlertasAsincronas();
+// 3. Ejecutar el sistema cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', setupAlertasAsincronas);

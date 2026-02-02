@@ -837,7 +837,7 @@ nav a {
 }
 
 /* --- CUERPO DE LA RADIO --- */
-#alert-system{
+#alert-system {
     width: 215px;
 }
 
@@ -879,6 +879,11 @@ nav a {
     border-bottom: none;
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+#alert-text {
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
 /* --- ANIMACIONES Y RESPONSIVE --- */
