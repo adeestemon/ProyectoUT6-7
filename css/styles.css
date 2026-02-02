@@ -528,6 +528,38 @@ nav a {
 
 /* --- REPRODUCTOR DE VÍDEO --- */
 
+.control-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.control-btn .material-symbols-outlined {
+    font-size: 32px;
+    /* Ajusta el tamaño del icono aquí */
+    transition: transform 0.2s ease;
+}
+
+.control-btn:hover .material-symbols-outlined {
+    transform: scale(1.1);
+    color: #8B0000;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    /* Permite que los elementos salten de línea si es necesario */
+    justify-content: center;
+}
+
+
 .custom-player {
     position: relative;
     background: #000;
@@ -548,17 +580,20 @@ nav a {
     -webkit-appearance: none;
     width: 100%;
     height: 10px;
-    /* El degradado hará el efecto de "relleno" */
-    background: linear-gradient(to right, #8b0000 0%, #8b0000 0%, #444 0%, #444 100%);
+    /* Altura fija de la barra */
+    background: #444;
     border-radius: 5px;
     outline: none;
-    transition: background 0.1s ease;
+    /* Evita que el navegador añada espacios extra */
+    margin: 0;
+    padding: 0;
 }
 
+/* 2. Ajuste específico para Webkit (Chrome, Safari, Edge en móvil) */
 #progress-bar::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 30px; /* Un poco más grande para el zombie */
+    width: 30px;
     height: 30px;
     background-image: url('/img/zombie.png');
     background-size: contain;
@@ -566,19 +601,29 @@ nav a {
     background-color: transparent;
     cursor: pointer;
     border: none;
-    /* Ajuste para centrar el icono verticalmente si es necesario */
-    margin-top: -10px; 
+
+    /* EL TRUCO: Centrado vertical matemático */
+    /* (Altura de la barra / 2) - (Altura del icono / 2) */
+    /* (10px / 2) - (30px / 2) = 5 - 15 = -10px */
+    margin-top: -10px;
+
+    position: relative;
+    z-index: 2;
 }
 
 #time-display {
-    white-space: nowrap; /* Evita que se separe en dos filas */
-    font-family: monospace; /* Opcional: mantiene los números alineados */
-    min-width: 100px; /* Opcional: evita que la barra de progreso salte al cambiar el tiempo */
+    white-space: nowrap;
+    /* Evita que se separe en dos filas */
+    font-family: monospace;
+    /* Opcional: mantiene los números alineados */
+    min-width: 100px;
+    /* Opcional: evita que la barra de progreso salte al cambiar el tiempo */
     display: inline-block;
 }
+
 .volume-container {
     display: flex;
-    
+
     align-items: center;
     gap: 5px;
 }
@@ -687,7 +732,7 @@ nav a {
     }
 
     .logo-animado {
-        position: relative; 
+        position: relative;
         left: 0 !important;
         margin: 20px auto;
         display: block;
@@ -700,5 +745,168 @@ nav a {
         top: 10px !important;
         left: 5% !important;
         height: 50px;
+    }
+}
+
+/* --- RESPONSIVE: Truco para móviles --- */
+@media (max-width: 600px) {
+    .controls {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Forzamos que la barra de progreso ocupe TODA la fila superior */
+    #progress-bar {
+        order: -1;
+        /* La mueve al principio */
+        flex: 1 1 100%;
+        /* Ocupa el 100% del ancho */
+        margin-bottom: 10px;
+    }
+
+    /* Ajustamos el tiempo para que no baile */
+    #time-display {
+        font-size: 12px;
+        min-width: 85px;
+        text-align: center;
+    }
+
+    /* Reducimos un poco el volumen en móvil para que quepa junto a los botones */
+    .volume-container {
+        font-size: 12px;
+    }
+
+    #volume-slider {
+        width: 60px;
+        /* Más corto en móvil */
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+
+
+/* --- CONTENEDOR PRINCIPAL (BASE) --- */
+.radio-rebelde {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 280px;
+    background: rgba(20, 20, 20, 0.95);
+    color: #ff3333;
+    padding: 15px;
+    border: 2px solid #8B0000;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    /* Evita que el contenido "salte" al minimizar */
+}
+
+/* --- CABECERA Y BOTÓN MINIMIZAR --- */
+.radio-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #8B0000;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.radio-header h4 {
+    margin: 0;
+    font-size: 14px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.minimize-btn {
+    background: transparent;
+    border: none;
+    color: #ff3333;
+    cursor: pointer;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+/* --- CUERPO DE LA RADIO --- */
+#alert-system{
+    width: 215px;
+}
+
+.alert-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.radio-btn {
+    background: #331111;
+    border: 1px solid #ff3333;
+    color: #ff3333;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.radio-btn:hover {
+    background: #ff3333;
+    color: white;
+}
+
+/* --- ESTADO MINIMIZADO --- */
+.radio-rebelde.minimized {
+    width: 180px;
+    padding: 8px 12px;
+}
+
+.radio-rebelde.minimized #radio-content {
+    display: none;
+}
+
+.radio-rebelde.minimized .radio-header {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* --- ANIMACIONES Y RESPONSIVE --- */
+.signal-icon {
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+@media (max-width: 600px) {
+    .radio-rebelde {
+        width: 220px;
+        bottom: 10px;
+        left: 10px;
+        padding: 10px;
+    }
+
+    .radio-rebelde.minimized {
+        width: 150px;
     }
 }

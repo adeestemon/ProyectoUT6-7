@@ -27,13 +27,22 @@ video.addEventListener('canplay', () => {
 
 // 3. Play / Pause
 playBtn.addEventListener('click', () => {
+    const icon = document.getElementById('play-icon');
+
     if (video.paused) {
         video.play();
-        playBtn.innerText = 'Pause';
+        icon.innerText = 'pause_circle'; // Cambia a icono de pausa
     } else {
         video.pause();
-        playBtn.innerText = 'Play';
+        icon.innerText = 'play_circle';  // Cambia a icono de play
     }
+});
+
+// IMPORTANTE: También cámbialo en el evento 'ended'
+video.addEventListener('ended', () => {
+    const icon = document.getElementById('play-icon');
+    statusMsg.innerText = "Protocolo finalizado. Puede cerrar la ventana.";
+    icon.innerText = 'play_circle'; // Vuelve a play cuando termina
 });
 
 // 4. Reiniciar
@@ -46,15 +55,23 @@ resetBtn.addEventListener('click', () => {
 
 // 5. timeupdate: Actualiza barra y tiempo actual
 video.addEventListener('timeupdate', () => {
-    // 1. Actualizar valor y texto (lo que ya tenías)
     progressBar.value = video.currentTime;
     timeDisplay.innerText = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
 
-    // 2. TRUCO: Calcular el porcentaje y mover el color
-    const percentage = (video.currentTime / video.duration) * 100;
-    
-    // Cambiamos el fondo dinámicamente (Rojo oscuro para la parte recorrida, Gris para la restante)
-    progressBar.style.background = `linear-gradient(to right, #8B0000 ${percentage}%, #111 ${percentage}%)`;
+    const ratio = video.currentTime / video.duration;
+
+    // EXPLICACIÓN:
+    // El thumb mide 30px. En el 0%, el centro del zombie está a 15px de la izquierda.
+    // En el 100%, el centro está a 15px de la derecha.
+    // Este cálculo matemático ajusta el gradiente para que SIEMPRE caiga bajo el zombie.
+    const thumbWidth = 30;
+    const progressBarWidth = progressBar.offsetWidth;
+    const centerOffset = (thumbWidth / 2) / progressBarWidth * 100;
+
+    // Mapeamos el porcentaje para que vaya de (0 + offset) a (100 - offset)
+    const adjustedPercentage = (ratio * (100 - (centerOffset * 2))) + centerOffset;
+
+    progressBar.style.background = `linear-gradient(to right, #8B0000 ${adjustedPercentage}%, #111 ${adjustedPercentage}%)`;
 });
 
 // 6. Saltar a un punto del video (input en barra)
@@ -69,6 +86,6 @@ volumeSlider.addEventListener('input', () => {
 
 // 8. ended: Mensaje al finalizar
 video.addEventListener('ended', () => {
-    statusMsg.innerText = "Protocolo finalizado. Puede cerrar la ventana.";
+    statusMsg.innerText = "El video ha terminao, puede seguir bajando.";
     playBtn.innerText = 'Play';
 });
