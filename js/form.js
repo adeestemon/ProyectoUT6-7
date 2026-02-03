@@ -49,10 +49,15 @@ if (form) {
                     const urgencia = document.querySelector('input[name="urgencia"]:checked').value;
                     const descripcion = document.getElementById('descripcion').value;
 
-                    // Creamos los datos de la lista
-                    crearEncargo(nombre, apellidos, tel, urgencia, descripcion, datos.url);
+                    const extrasCheckboxes = document.querySelectorAll('input[name="extra"]:checked');
+                    const extrasArray = Array.from(extrasCheckboxes).map(cb => {
+                        let texto = cb.value;
+                        return texto.charAt(0).toUpperCase() + texto.slice(1);
+                    });
 
-                    // Limpiamos el formulario AHORA que ya sabemos que se guardó
+                    const extrasTexto = extrasArray.length > 0 ? extrasArray.join("<br>") : "Ninguno";
+                    // Creamos los datos de la lista
+                    crearEncargo(nombre, apellidos, tel, urgencia, descripcion, datos.url, extrasTexto);
                     form.reset();
                 } else {
                     alert("Error al subir el encargo");
@@ -63,7 +68,7 @@ if (form) {
 }
 
 // AÑADE EL ENCARGO DEL FORMULARIO A LA LISTA DE ENCARGOS
-function crearEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
+function crearEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl, extras) {
     const lista = document.getElementById('lista-encargos'); // Ahora apunta al <tbody>
 
     // Creamos la fila 
@@ -82,14 +87,25 @@ function crearEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
         <td class="td-urgencia">
             <span class="badge badge-${urgencia}">${urgencia.toUpperCase()}</span>
         </td>
+        <td class="td-extras">
+            <div class="extras-tag-container">
+                ${extras} 
+            </div>
+        </td>
         <td class="td-desc">
             <div class="desc-truncate">"${desc || 'Sin descripción'}"</div>
         </td>
         <td class="td-acciones">
             <div class="btn-group-tabla">
-                <button class="btn btn-complete" title="Finalizar">✅</button>
-                <button class="btn btn-clone" title="Duplicar">👯</button>
-                <button class="btn btn-delete" title="Eliminar">🗑️</button>
+                <button class="btn btn-complete" title="Finalizar">
+                    <span class="material-symbols-outlined">check</span>
+                </button>
+                <button class="btn btn-clone" title="Duplicar">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </button>
+                <button class="btn btn-delete" title="Eliminar">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
             </div>
         </td>
     `;

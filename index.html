@@ -49,10 +49,16 @@
         <h2 class="titulo-seccion" id="solicitar-servicios">Solicitar servicios</h2>
         <form id="form-encargo" class="contacto-form">
             <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" placeholder="Ej; Pepe">
-                <label for="apellidos">Apellidos</label>
-                <input type="text" id="apellidos" placeholder="Ej; Garcia" required>
+                <div class="form-row">
+                    <div class="input-data">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" placeholder="Ej; Pepe">
+                    </div>
+                    <div class="input-data">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" id="apellidos" placeholder="Ej; Garcia" required>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -76,13 +82,23 @@
             </div>
 
             <div class="form-group">
-                <span class="label-style">Extras:</span><br>
-                <input type="checkbox" id="extra-incineracion" name="extra" value="incineracion">
-                <label for="extra-incineracion">Incineración</label><br>
-                <input type="checkbox" id="extra-limpieza" name="extra" value="limpieza">
-                <label for="extra-limpieza">Limpieza de sangre</label><br>
-                <input type="checkbox" id="extra-silencio" name="extra" value="silencio">
-                <label for="extra-silencio">Discreción absoluta</label>
+                <span class="label-style">Extras:</span>
+                <div class="extras-wrapper">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="extra-incineracion" name="extra" value="incineracion">
+                        <label for="extra-incineracion">Incineración</label>
+                    </div>
+
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="extra-limpieza" name="extra" value="limpieza">
+                        <label for="extra-limpieza">Limpieza de sangre</label>
+                    </div>
+
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="extra-silencio" name="extra" value="silencio">
+                        <label for="extra-silencio">Discreción absoluta</label>
+                    </div>
+                </div>
             </div>
 
 
@@ -100,11 +116,6 @@
         </form>
     </section>
 
-    <!-- <section class="ordenes-seccion">
-        <h2 class="titulo-seccion">Encargos en Curso</h2>
-        <div id="lista-encargos"></div>
-    </section> -->
-
     <section class="encargos-seccion">
         <h2 class="titulo-seccion">Listado de Encargos</h2>
         <table class="tabla-encargos">
@@ -114,6 +125,7 @@
                     <th>Cliente</th>
                     <th>Teléfono</th>
                     <th>Urgencia</th>
+                    <th>Extras</th>
                     <th>Descripción</th>
                     <th>Acciones</th>
                 </tr>
@@ -124,20 +136,36 @@
                         <img src="${fotoUrl}" class="tabla-img-mini">
                     </td>
                     <td class="td-cliente">
-                        <strong>${nombre.toUpperCase()} ${apellidos.toUpperCase()}</strong>
+                        <strong>Juan Juanito</strong>
                     </td>
                     <td class="td-tel">${tel}</td>
                     <td class="td-urgencia">
-                        <span class="badge badge-${urgencia}">${urgencia.toUpperCase()}</span>
+                        <span class="badge badge-${urgencia}">ALTA</span>
                     </td>
+                    <td>pepa</td>
                     <td class="td-desc">
-                        <div class="desc-truncate">"${desc || 'Sin descripción'}"</div>
+                        <div class="desc-truncate">"Esto es una prueba de un texto bien largo largo largo largo largo
+                            largo largo largo largo largo largo largo largo largo largo largo largo largo largo largo
+                            largo largo largo largo largo largo largo largo largo largo largo largo largo largo largo
+                            largo"</div>
                     </td>
                     <td class="td-acciones">
                         <div class="btn-group-tabla">
-                            <button class="btn btn-complete" title="Finalizar">✅</button>
-                            <button class="btn btn-clone" title="Duplicar">👯</button>
-                            <button class="btn btn-delete" title="Eliminar">🗑️</button>
+                            <button class="btn btn-complete" title="Finalizar">
+                                <span class="material-symbols-outlined">
+                                    check
+                                </span>
+                            </button>
+                            <button class="btn btn-clone" title="Duplicar">
+                                <span class="material-symbols-outlined">
+                                    content_copy
+                                </span>
+                            </button>
+                            <button class="btn btn-delete" title="Eliminar">
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                            </button>
                         </div>
                     </td>
                 </tr>

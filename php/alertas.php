@@ -12,7 +12,6 @@ $posiblesAlertas = [
 
 // Seleccionamos una aleatoria
 $mensaje = $posiblesAlertas[array_rand($posiblesAlertas)];
-$timestamp = date("H:i");
 
 echo json_encode([
     "status" => "success",
