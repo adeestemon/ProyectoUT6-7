@@ -531,12 +531,12 @@ video::cue {
 }
 
 .control-btn.active {
-    color: #8B0000;
+    color: #ffb4b4;
 }
 
 .control-btn:hover {
     transform: scale(1.12);
-    color: #8B0000;
+    color: #ffffff;
 }
 
 #progreso-barra {
@@ -552,7 +552,7 @@ video::cue {
     -webkit-appearance: none;
     width: 30px;
     height: 30px;
-    background: url('/img/zombie.png') center/contain no-repeat;
+    background: url('../img/zombie.png') center/contain no-repeat;
     background-color: transparent;
     border: none;
     margin-top: -10px;

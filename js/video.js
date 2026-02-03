@@ -7,9 +7,7 @@ const volumenSlider = document.getElementById('volumen-slider');
 const mensaje = document.getElementById('mensaje');
 const icon = document.getElementById('play-icon');
 // Extra
-const audioExterno = document.querySelector('audio');
 const btnSubs = document.getElementById('toggle-subs');
-const btnAudio = document.getElementById('toggle-audio');
 
 // Formatear tiempo
 function formatTime(time) {
@@ -93,24 +91,6 @@ btnSubs.addEventListener('click', () => {
     } else {
         track[0].mode = 'showing';
         btnSubs.style.color = '#8B0000';
-    }
-});
-
-// Audio
-let usandoAudioExterno = false;
-
-btnAudio.addEventListener('click', () => {
-    usandoAudioExterno = !usandoAudioExterno;
-
-    if (usandoAudioExterno) {
-        video.muted = true;
-        audioExterno.currentTime = video.currentTime;
-        audioExterno.play();
-        btnAudio.style.color = "#8B0000";
-    } else {
-        video.muted = false;
-        audioExterno.pause();
-        btnAudio.style.color = "white";
     }
 });
 
