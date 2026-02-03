@@ -6,10 +6,9 @@ const timeDisplay = document.getElementById('time-display');
 const volumenSlider = document.getElementById('volumen-slider');
 const mensaje = document.getElementById('mensaje');
 const icon = document.getElementById('play-icon');
-// Extra
 const btnSubs = document.getElementById('toggle-subs');
 
-// Formatear tiempo
+// Formatear tiempo con segundos
 function formatTime(time) {
     const mins = Math.floor(time / 60);
     const secs = Math.floor(time % 60);
@@ -18,13 +17,14 @@ function formatTime(time) {
 
 
 // loadedmetadata
+// El video carga la duración del video
 video.addEventListener('loadedmetadata', () => {
     progresoBarra.max = video.duration;
     timeDisplay.innerText = `00:00 / ${formatTime(video.duration)}`;
 });
 
 
-// play / pause
+// Controles de reproducción play / pause
 playBtn.addEventListener('click', () => {
 
     if (video.paused) {
@@ -39,7 +39,7 @@ playBtn.addEventListener('click', () => {
 });
 
 
-// reiniciar
+// Control de reiniciar vuelve el tiempo a 0
 resetBtn.addEventListener('click', () => {
     video.currentTime = 0;
     video.play();
@@ -47,34 +47,36 @@ resetBtn.addEventListener('click', () => {
 });
 
 
-// actualizar progreso
+// timeupdate
+// Actualizar progreso
 video.addEventListener('timeupdate', () => {
+    progresoBarra.value = video.currentTime; // mueve el deslizador de la barra
 
-    progresoBarra.value = video.currentTime;
-
+    // Actualiza el contrador del tiempo actual / total
     timeDisplay.innerText =
         `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
 
-    // fondo rojo dinámico bajo el zombie
+    // Fondo rojo dinámico bajo el zombie que sigue el progreso del video
     const porcentaje = (video.currentTime / video.duration) * 100;
     progresoBarra.style.background =
         `linear-gradient(to right, #8B0000 ${porcentaje}%, #444 ${porcentaje}%)`;
 });
 
 
-// mover barra
+// Control del usuario al mover barra de progreso
 progresoBarra.addEventListener('input', () => {
     video.currentTime = progresoBarra.value;
 });
 
 
-// volumen
+// Control del usuario al volumen
 volumenSlider.addEventListener('input', () => {
     video.volume = volumenSlider.value;
 });
 
 
 // ended
+// Finalización del video y acción
 video.addEventListener('ended', () => {
     icon.innerText = "play_circle";
     mensaje.innerText = "Video finalizado.";
@@ -82,6 +84,7 @@ video.addEventListener('ended', () => {
 
 
 // Subtitulos
+// Alterna visibilidad de los primeros textos
 Array.from(video.textTracks).forEach(track => track.mode = 'hidden');
 btnSubs.addEventListener('click', () => {
     const track = video.textTracks;
