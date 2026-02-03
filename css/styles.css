@@ -271,7 +271,8 @@ nav a {
     margin-bottom: 25px;
 }
 
-.form-group label, .label-style {
+.form-group label,
+.label-style {
     display: inline-block;
     text-transform: uppercase;
     font-size: 0.9rem;
@@ -419,9 +420,20 @@ nav a {
     text-transform: uppercase;
 }
 
-.badge-alta { background-color: #d32f2f; border: 1px solid #b71c1c; }
-.badge-media { background-color: #f57c00; border: 1px solid #e65100; }
-.badge-baja { background-color: #388e3c; border: 1px solid #1b5e20; }
+.badge-alta {
+    background-color: #d32f2f;
+    border: 1px solid #b71c1c;
+}
+
+.badge-media {
+    background-color: #f57c00;
+    border: 1px solid #e65100;
+}
+
+.badge-baja {
+    background-color: #388e3c;
+    border: 1px solid #1b5e20;
+}
 
 .card-body {
     padding: 20px;
@@ -467,15 +479,29 @@ nav a {
     color: white;
 }
 
-.btn-complete { background-color: #28a745; }
-.btn-clone { background-color: #6c757d; }
-.btn-delete { background-color: #dc3545; }
+.btn-complete {
+    background-color: #28a745;
+}
+
+.btn-clone {
+    background-color: #6c757d;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
 
 /* REPRODUCTOR DE VIDEO */
 .video-seccion {
     max-width: 900px;
     margin: 40px auto;
     padding: 10px;
+}
+
+video::cue {
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    font-size: 18px;
 }
 
 .fondo-video {
@@ -502,6 +528,10 @@ nav a {
     cursor: pointer;
     padding: 5px;
     transition: all .15s ease;
+}
+
+.control-btn.active {
+    color: #8B0000;
 }
 
 .control-btn:hover {
@@ -645,8 +675,15 @@ nav a {
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
 }
 
 /* FOOTER Y MAPA */
