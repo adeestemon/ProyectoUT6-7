@@ -139,3 +139,39 @@ function rebindEventos(elemento) {
         e.target.disabled = true;
     };
 }
+
+// Seleccionamos los elementos del DOM necesarios para el modal
+const modal = document.getElementById("modal-visor");
+const imgModal = document.getElementById("img-ampliada");
+const spanCerrar = document.querySelector(".cerrar-modal");
+
+// Referencia al cuerpo de la tabla para aplicar delegación de eventos
+const listaEncargos = document.getElementById('lista-encargos');
+
+// Verificamos que el contenedor de la lista existe para evitar errores en otras páginas
+if (listaEncargos) {
+    listaEncargos.addEventListener('click', function (e) {
+        // Comprobamos si el elemento clickeado tiene la clase de las miniaturas
+        if (e.target && e.target.classList.contains('tabla-img-mini')) {
+            // Activamos el modal usando 'flex' para que el CSS lo centre automáticamente
+            modal.style.display = "flex";
+            // Clonamos la ruta (src) de la miniatura a la imagen del modal
+            imgModal.src = e.target.src;
+        }
+    });
+}
+
+// Cerrar modal
+if (spanCerrar) {
+    spanCerrar.onclick = () => {
+        modal.style.display = "none";
+    };
+}
+
+// Cierre por "clic fuera": Si el usuario pulsa en el fondo oscuro (el modal en sí)
+// y no en la imagen, el visor se cierra.
+window.onclick = (event) => {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};

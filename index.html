@@ -130,44 +130,7 @@
                 </tr>
             </thead>
             <tbody id="lista-encargos">
-                <tr>
-                    <td class="td-foto">
-                        <img src="${fotoUrl}" class="tabla-img-mini">
-                    </td>
-                    <td class="td-cliente">
-                        <strong>Juan Juanito</strong>
-                    </td>
-                    <td class="td-tel">${tel}</td>
-                    <td class="td-urgencia">
-                        <span class="badge badge-${urgencia}">ALTA</span>
-                    </td>
-                    <td>pepa</td>
-                    <td class="td-desc">
-                        <div class="desc-truncate">"Esto es una prueba de un texto bien largo largo largo largo largo
-                            largo largo largo largo largo largo largo largo largo largo largo largo largo largo largo
-                            largo largo largo largo largo largo largo largo largo largo largo largo largo largo largo
-                            largo"</div>
-                    </td>
-                    <td class="td-acciones">
-                        <div class="btn-group-tabla">
-                            <button class="btn btn-complete" title="Finalizar">
-                                <span class="material-symbols-outlined">
-                                    check
-                                </span>
-                            </button>
-                            <button class="btn btn-clone" title="Duplicar">
-                                <span class="material-symbols-outlined">
-                                    content_copy
-                                </span>
-                            </button>
-                            <button class="btn btn-delete" title="Eliminar">
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+
             </tbody>
         </table>
     </section>
@@ -238,6 +201,10 @@
                         class="material-symbols-outlined">chevron_right</span></button>
             </div>
         </div>
+    </div>
+    <div id="modal-visor" class="modal">
+        <span class="cerrar-modal">&times;</span>
+        <img class="modal-contenido" id="img-ampliada">
     </div>
     <footer id="main-footer">
         <div class="footer-grid">
