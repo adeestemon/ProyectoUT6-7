@@ -215,7 +215,7 @@ nav a {
 /* SECCIONES Y GRID DE servicios */
 .servicios-seccion,
 .contacto-seccion,
-.ordenes-seccion,
+.encargos-seccion,
 .video-seccion {
     padding: 100px 5% 60px;
     color: white;
@@ -361,135 +361,106 @@ nav a {
     box-shadow: 0 4px 12px rgba(172, 19, 19, 0.3);
 }
 
-/* TARJETAS DE ENCARGO */
-#lista-encargos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding-top: 20px;
-}
+/* LISTA DE ENCARGOS */
 
-.encargo-card {
-    background-color: #2c2c2c;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    border: 1px solid #444;
+
+
+/* Estructura de la Tabla */
+.tabla-encargos {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #111;
     overflow: hidden;
-    width: 320px;
-    transition: all 0.3s ease;
+    border: 2px solid #333;
+    border-radius: 10px;
 }
 
-.encargo-card:hover {
-    transform: translateY(-5px);
-    border-color: #666;
+.tabla-encargos thead {
+    background-color: #111;
+    color: white;
+    text-align: center;
 }
 
-.card-header {
-    background-color: #222;
-    padding: 15px 20px;
+.tabla-encargos th,
+.tabla-encargos td {
+    padding: 12px 15px;
+    text-align: left;
     border-bottom: 1px solid #444;
 }
-
-.header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
+/* Estilos imagen  */
+.tabla-img-mini {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid #ffffff;
 }
 
-.card-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #fff;
-    font-weight: 700;
-}
-
-.phone-number {
-    font-size: 0.9rem;
-    color: #aaa;
-    font-weight: 500;
-}
-
-/* Badges de Prioridad */
-.badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+/* Celdas específicas */
+.td-urgencia .badge {
+    padding: 5px 10px;
+    border-radius: 4px;
     font-weight: bold;
-    text-transform: uppercase;
+    font-size: 0.8rem;
 }
 
 .badge-alta {
-    background-color: #d32f2f;
-    border: 1px solid #b71c1c;
-}
-
-.badge-media {
-    background-color: #f57c00;
-    border: 1px solid #e65100;
-}
-
-.badge-baja {
-    background-color: #388e3c;
-    border: 1px solid #1b5e20;
-}
-
-.card-body {
-    padding: 20px;
-}
-
-.desc-box {
-    background-color: #383838;
-    border-left: 3px solid #777;
-    padding: 10px 15px;
-    margin-bottom: 15px;
-    font-style: italic;
-    color: #ddd;
-    font-size: 0.95rem;
-}
-
-.status-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    color: #fff;
-}
-
-.estado-texto {
-    font-weight: bold;
-    color: #ff6b6b;
-}
-
-.card-footer {
-    padding: 15px 20px;
-    background-color: #222;
-    display: flex;
-    gap: 10px;
-}
-
-.btn {
-    flex: 1;
-    padding: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
+    background-color: #e63946;
     color: white;
 }
 
+.badge-baja {
+    background-color: #f1faee;
+    color: #1d3557;
+}
+
+.td-desc {
+    max-width: 200px;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+/* Botones de acción en la tabla */
+.btn-group-tabla {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-group-tabla .btn {
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-group-tabla .btn:hover {
+    transform: scale(1.1);
+}
+
 .btn-complete {
-    background-color: #28a745;
+    background-color: #2a9d8f;
+    color: white;
 }
 
 .btn-clone {
-    background-color: #6c757d;
+    background-color: #d4d4d4;
+    color: white;
 }
 
 .btn-delete {
-    background-color: #dc3545;
+    background-color: #d62828;
+    color: white;
 }
+
+/* Efecto para filas finalizadas */
+.fila-completada {
+    background-color: #1b2e1b !important;
+    color: #888;
+    text-decoration: line-through;
+}
+
 
 /* REPRODUCTOR DE VIDEO */
 .video-seccion {
@@ -802,7 +773,13 @@ video::cue {
         left: 5% !important;
         height: 50px;
     }
+
+    .tabla-encargos {
+        display: block;
+        overflow-x: auto;
+    }
 }
+
 
 @media (max-width: 600px) {
     .controles {

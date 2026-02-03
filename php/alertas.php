@@ -1,8 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-// Aquí podrías conectar a una base de datos MySQL. 
-// Por ahora, simulamos una respuesta del servidor.
 $posiblesAlertas = [
     "ALERTA: Juan mato ha matado a su suegra (no estaba infectada).",
     "INFO: Se ha despejado el sector 3 de zombies.",

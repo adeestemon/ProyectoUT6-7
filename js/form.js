@@ -1,8 +1,8 @@
 // SERVICIOS DINÁMICOS
 
 const servicios = [
-    { titulo: "Eliminación de Personas", desc: "Matamos a sus seres queridos.", img: "img/zombie.png" },
-    { titulo: "Eliminación de Mascotas", desc: "Peluditos pero peligrosos.", img: "img/aymigatitozombie.png" },
+    { titulo: "Eliminación de personas", desc: "Matamos a sus seres queridos.", img: "img/zombie.png" },
+    { titulo: "Eliminación de mascotas", desc: "Peluditos pero peligrosos.", img: "img/aymigatitozombie.png" },
     { titulo: "Refuerzo de vivienda", desc: "Asegura tu refugio contra cualquier amenaza.", img: "img/casa-reforzada.png" },
 ];
 
@@ -24,98 +24,102 @@ if (contenedor) {
 }
 
 // FORMULARIO ENCARGOS
-
 const form = document.getElementById('form-encargo');
 
 if (form) {
-
     form.addEventListener('submit', function (e) {
-
         e.preventDefault();
 
-        const nombre = document.getElementById('nombre').value;
-        const apellidos = document.getElementById('apellidos').value;
-        const tel = document.getElementById('telefono').value;
-        const urgencia = document.querySelector('input[name="urgencia"]:checked').value;
-        const descripcion = document.getElementById('descripcion').value;
+        //  Empaquetamos todo lo que se ha enviado
+        const formData = new FormData(form);
 
-        const fileInput = document.getElementById('foto');
-        const archivo = fileInput.files[0];
+        //  Se envia al servidor
+        fetch('php/subirForm.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(datos => {
+                if (datos.status === "success") {
+                    // Capturamos los valores para colocarlos en la lista de encargos
+                    // Usamos "datos.url" que es la ruta que nos devuelve el PHP
+                    const nombre = document.getElementById('nombre').value;
+                    const apellidos = document.getElementById('apellidos').value;
+                    const tel = document.getElementById('telefono').value;
+                    const urgencia = document.querySelector('input[name="urgencia"]:checked').value;
+                    const descripcion = document.getElementById('descripcion').value;
 
-        if (archivo) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                crearTarjetaEncargo(nombre, apellidos, tel, urgencia, descripcion, ev.target.result);
-            };
-            reader.readAsDataURL(archivo);
-        } else {
-            crearTarjetaEncargo(nombre, apellidos, tel, urgencia, descripcion, 'img/zombie.png');
-        }
+                    // Creamos los datos de la lista
+                    crearEncargo(nombre, apellidos, tel, urgencia, descripcion, datos.url);
 
-        form.reset();
+                    // Limpiamos el formulario AHORA que ya sabemos que se guardó
+                    form.reset();
+                } else {
+                    alert("Error al subir el encargo");
+                }
+            })
+            .catch(error => console.error('Error:', error));
     });
-
 }
 
-// CREAR TARJETA
+// AÑADE EL ENCARGO DEL FORMULARIO A LA LISTA DE ENCARGOS
+function crearEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
+    const lista = document.getElementById('lista-encargos'); // Ahora apunta al <tbody>
 
-function crearTarjetaEncargo(nombre, apellidos, tel, urgencia, desc, fotoUrl) {
+    // Creamos la fila 
+    const fila = document.createElement('tr');
+    fila.className = 'encargo-fila';
 
-    const lista = document.getElementById('lista-encargos');
-
-    const tarjeta = document.createElement('div');
-    tarjeta.className = 'encargo-card';
-
-    tarjeta.innerHTML = `
-        <div class="card-header">
-            <div class="header-top">
-                <h3>${nombre.toUpperCase()} ${apellidos.toUpperCase()}</h3>
-                <span class="badge badge-${urgencia}">${urgencia.toUpperCase()}</span>
+    // Añadimos a las celdas sus respectivos datos
+    fila.innerHTML = `
+        <td class="td-foto">
+            <img src="${fotoUrl}" class="tabla-img-mini">
+        </td>
+        <td class="td-cliente">
+            <strong>${nombre.toUpperCase()} ${apellidos.toUpperCase()}</strong>
+        </td>
+        <td class="td-tel">${tel}</td>
+        <td class="td-urgencia">
+            <span class="badge badge-${urgencia}">${urgencia.toUpperCase()}</span>
+        </td>
+        <td class="td-desc">
+            <div class="desc-truncate">"${desc || 'Sin descripción'}"</div>
+        </td>
+        <td class="td-acciones">
+            <div class="btn-group-tabla">
+                <button class="btn btn-complete" title="Finalizar">✅</button>
+                <button class="btn btn-clone" title="Duplicar">👯</button>
+                <button class="btn btn-delete" title="Eliminar">🗑️</button>
             </div>
-            <span class="phone-number">📞 ${tel}</span>
-        </div>
-
-        <div class="card-body">
-            <img src="${fotoUrl}" class="servicios-img">
-
-            <div class="desc-box">
-                "${desc || 'Sin descripción'}"
-            </div>
-
-            <div class="status-row">
-                Estado:
-                <span class="estado-texto">PENDIENTE</span>
-            </div>
-        </div>
-
-        <div class="card-footer">
-            <button class="btn btn-complete">Finalizar</button>
-            <button class="btn btn-clone">Duplicar</button>
-            <button class="btn btn-delete">Eliminar</button>
-        </div>
+        </td>
     `;
 
-    rebindEventos(tarjeta);
+    // Vinculamos eventos a los botones dentro de la fila
+    rebindEventos(fila);
 
-    lista.appendChild(tarjeta);
+    // Añadimos la fila a la tabla
+    lista.appendChild(fila);
 }
 
-// BOTONES
 
+// BOTONES
 function rebindEventos(elemento) {
 
+    //  Botón de eliminar
     elemento.querySelector('.btn-delete').onclick = () => elemento.remove();
 
+    // Botón de clonar
     elemento.querySelector('.btn-clone').onclick = () => {
         const clon = elemento.cloneNode(true);
         rebindEventos(clon);
         elemento.parentNode.appendChild(clon);
     };
 
-    elemento.querySelector('.btn-complete').onclick = () => {
-        elemento.style.opacity = "0.6";
-        elemento.style.filter = "grayscale(1)";
-        elemento.querySelector('.estado-texto').textContent = "COMPLETADO";
-        elemento.querySelector('.estado-texto').style.color = "#28a745";
+    // Botón de finalizar encargo
+    elemento.querySelector('.btn-complete').onclick = (e) => {
+        elemento.classList.add('fila-completada'); // Añadimos una clase para el CSS
+        elemento.style.opacity = "0.5";
+        elemento.style.backgroundColor = "#d4edda";
+        e.target.disabled = true;
     };
 }

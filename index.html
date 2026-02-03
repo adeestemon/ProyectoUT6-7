@@ -88,7 +88,7 @@
 
             <div class="form-group">
                 <span class="label-style">Sube foto del "disidente":</span>
-                <input type="file" id="foto" accept="image/*" class="input-archivo-custom">
+                <input type="file" id="foto" name="foto" accept="image/*">
             </div>
 
             <div class="form-group">
@@ -100,9 +100,49 @@
         </form>
     </section>
 
-    <section class="ordenes-seccion">
+    <!-- <section class="ordenes-seccion">
         <h2 class="titulo-seccion">Encargos en Curso</h2>
         <div id="lista-encargos"></div>
+    </section> -->
+
+    <section class="encargos-seccion">
+        <h2 class="titulo-seccion">Listado de Encargos</h2>
+        <table class="tabla-encargos">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Cliente</th>
+                    <th>Teléfono</th>
+                    <th>Urgencia</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="lista-encargos">
+                <tr>
+                    <td class="td-foto">
+                        <img src="${fotoUrl}" class="tabla-img-mini">
+                    </td>
+                    <td class="td-cliente">
+                        <strong>${nombre.toUpperCase()} ${apellidos.toUpperCase()}</strong>
+                    </td>
+                    <td class="td-tel">${tel}</td>
+                    <td class="td-urgencia">
+                        <span class="badge badge-${urgencia}">${urgencia.toUpperCase()}</span>
+                    </td>
+                    <td class="td-desc">
+                        <div class="desc-truncate">"${desc || 'Sin descripción'}"</div>
+                    </td>
+                    <td class="td-acciones">
+                        <div class="btn-group-tabla">
+                            <button class="btn btn-complete" title="Finalizar">✅</button>
+                            <button class="btn btn-clone" title="Duplicar">👯</button>
+                            <button class="btn btn-delete" title="Eliminar">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 
     <section class="video-seccion">

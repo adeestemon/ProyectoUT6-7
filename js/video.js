@@ -94,15 +94,3 @@ btnSubs.addEventListener('click', () => {
     }
 });
 
-// Sincronizar tiempos
-video.addEventListener('play', () => {
-    if (usandoAudioExterno) audioExterno.play();
-});
-
-video.addEventListener('pause', () => {
-    audioExterno.pause();
-});
-
-video.addEventListener('seeking', () => {
-    if (usandoAudioExterno) audioExterno.currentTime = video.currentTime;
-});
