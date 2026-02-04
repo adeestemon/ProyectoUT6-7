@@ -50,16 +50,13 @@ resetBtn.addEventListener('click', () => {
 // timeupdate
 // Actualizar progreso
 video.addEventListener('timeupdate', () => {
-    progresoBarra.value = video.currentTime; // mueve el deslizador de la barra
+    progresoBarra.value = video.currentTime; 
 
-    // Actualiza el contrador del tiempo actual / total
-    timeDisplay.innerText =
-        `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
-
-    // Fondo rojo dinámico bajo el zombie que sigue el progreso del video
     const porcentaje = (video.currentTime / video.duration) * 100;
-    progresoBarra.style.background =
-        `linear-gradient(to right, #8B0000 ${porcentaje}%, #444 ${porcentaje}%)`;
+
+    progresoBarra.style.background = `linear-gradient(to right, #8B0000 ${porcentaje}%, #444 ${porcentaje}%)`;
+
+    timeDisplay.innerText = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
 });
 
 
@@ -70,10 +67,17 @@ progresoBarra.addEventListener('input', () => {
 
 
 // Control del usuario al volumen
+function actualizarBarra() {
+    const porcentaje = volumenSlider.value * 100;
+    // Cambiamos el segundo color a negro para que se note el contraste
+    volumenSlider.style.background = `linear-gradient(to right, #ff0000 ${porcentaje}%, #000 ${porcentaje}%)`;
+}
+
 volumenSlider.addEventListener('input', () => {
     video.volume = volumenSlider.value;
+    actualizarBarra();
 });
-
+actualizarBarra();
 
 // ended
 // Finalización del video y acción
